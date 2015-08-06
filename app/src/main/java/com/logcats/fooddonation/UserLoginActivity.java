@@ -375,6 +375,7 @@ public class UserLoginActivity extends ActionBarActivity implements
                 User user = new User();
                 user.setId(authData.getUid());
                 user.setName((String) authData.getProviderData().get("displayName"));
+                user.setEmail((String) authData.getProviderData().get("email"));
                 intent.putExtra(DATA_USER, user);
                 setResult(RESULT_OK, intent);
                 finish();
