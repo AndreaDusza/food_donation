@@ -14,6 +14,7 @@ import java.util.List;
 
 
 public class DonationListActivity extends Activity  implements AdapterView.OnItemClickListener, DataCallback {
+
     public static final String OFFER_EXTRA_KEY = "offer";
     private ListView mListView;
     private DonationAdapter mAdapter;

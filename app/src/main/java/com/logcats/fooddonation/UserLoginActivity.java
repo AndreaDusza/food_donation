@@ -35,6 +35,10 @@ public class UserLoginActivity extends ActionBarActivity implements
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
 
+    public static final String REDIRECT_CLASS_STRING = "redirectClassString";
+    public static final String DATA_USER = "user";
+    public static final int ACTION_LOGIN = 1;
+
     private static final String TAG = MainActivity.class.getSimpleName();
 
     /* *************************************
@@ -88,6 +92,7 @@ public class UserLoginActivity extends ActionBarActivity implements
 
     /* The login button for Google */
     private SignInButton mGoogleLoginButton;
+    private String user;
 
 /*
     */
@@ -345,9 +350,12 @@ public class UserLoginActivity extends ActionBarActivity implements
             mTwitterLoginButton.setVisibility(View.GONE);
             mPasswordLoginButton.setVisibility(View.GONE);
             mAnonymousLoginButton.setVisibility(View.GONE);*/
+
             mGoogleLoginButton.setVisibility(View.GONE);
             mLoggedInStatusTextView.setVisibility(View.VISIBLE);
+
             /* show a provider specific status text */
+
             String name = null;
             if (authData.getProvider().equals("facebook")
                     || authData.getProvider().equals("google")
@@ -360,14 +368,25 @@ public class UserLoginActivity extends ActionBarActivity implements
                 Log.e(TAG, "Invalid provider: " + authData.getProvider());
             }
             if (name != null) {
-                mLoggedInStatusTextView.setText("Logged in as " + name + " (" + authData.getProvider() + ")");
+                //mLoggedInStatusTextView.setText("Logged in as " + name + " (" + authData.getProvider() + ")");
+                mAuthProgressDialog.dismiss();
+                Log.d(TAG, "Login successful or already logged in");
+                Intent intent = new Intent();
+                User user = new User();
+                user.setId(authData.getUid());
+                user.setName((String) authData.getProviderData().get("displayName"));
+                intent.putExtra(DATA_USER, user);
+                setResult(RESULT_OK, intent);
+                finish();
             }
         } else {
+
             /* No authenticated user show all the login buttons */
 /*            mFacebookLoginButton.setVisibility(View.VISIBLE);
             mTwitterLoginButton.setVisibility(View.VISIBLE);
             mPasswordLoginButton.setVisibility(View.VISIBLE);
             mAnonymousLoginButton.setVisibility(View.VISIBLE);*/
+
             mGoogleLoginButton.setVisibility(View.VISIBLE);
             mLoggedInStatusTextView.setVisibility(View.GONE);
         }
