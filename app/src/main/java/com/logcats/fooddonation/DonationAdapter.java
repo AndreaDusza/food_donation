@@ -76,7 +76,10 @@ public class DonationAdapter extends BaseAdapter {
         DateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
         holder.postedOn.setText(dateFormat.format(currentOffer.getPostCreationDate()));
         holder.title.setText(currentOffer.getTitle());
-        Picasso.with(mContext).load(currentOffer.getPicUrl()).into(holder.foodImage);
+
+        if(holder.foodImage != null && !holder.foodImage.equals("")) {
+            Picasso.with(mContext).load(currentOffer.getPicUrl()).into(holder.foodImage);
+        }
 
         //TODO: Set the donators name
         return view;

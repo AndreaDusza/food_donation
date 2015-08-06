@@ -23,7 +23,10 @@ public class DetailedDonationActivity extends Activity {
 
         if(intent != null) {
             Offer offer = (Offer) intent.getSerializableExtra(DonationListActivity.OFFER_EXTRA_KEY);
-            mTitle.setText(offer.getTitle());
+
+            if(offer != null){
+                mTitle.setText(offer.getTitle());
+            }
         }
     }
 }
