@@ -59,15 +59,10 @@ public class DataManager {
                             }
                         }
                     }
+
                     users.add(user);
-
-                    for (DataSnapshot msgSnapshot : snapshot.getChildren()) {
-                        Offer current = msgSnapshot.getValue(Offer.class);
-                        allOffers.add(current);
-
-                        if (mCallback != null) {
-                            mCallback.onOffersReceived(allOffers);
-                        }
+                    if (mCallback != null) {
+                        mCallback.onOffersReceived(allOffers);
                     }
                 }
             }
