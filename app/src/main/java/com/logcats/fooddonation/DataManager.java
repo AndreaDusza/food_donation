@@ -15,12 +15,11 @@ import java.util.HashMap;
  * Created by demouser on 8/6/15.
  */
 public class DataManager {
-
-    private HashMap<String, User> usersMap = new HashMap<String,User>();
+    private DataCallback mCallback;
+    private static DataManager dm;
     private ArrayList<Offer> allOffers =  new ArrayList<Offer>();
     private ArrayList<User> users =  new ArrayList<User>();
     private Firebase rootRef;
-    //private Firebase rootRef;
 
     public ArrayList<Offer> getAllOffers() {
         return allOffers;
@@ -28,9 +27,7 @@ public class DataManager {
     public ArrayList<Offer> getAllActiveOffers() {
         ArrayList<Offer> allActiveOffers =  new ArrayList<Offer>();
         for (Offer o: allOffers){
-            if (o.isActive){
-
-            }
+          //TODO
         }
         return allActiveOffers;
     }
@@ -64,26 +61,31 @@ public class DataManager {
 
     public DataManager(Context context) {
         Firebase.setAndroidContext(context);
-        //rootRef = new Firebase("https://intense-inferno-9938.firebaseio.com/fooddonation/users/");
-        rootRef = new Firebase("https://intense-inferno-9938.firebaseio.com/fooddonation/");
-        registerNewOffer(new Offer());
+        rootRef = new Firebase("https://intense-inferno-9938.firebaseio.com/fooddonation/users/");
+        //rootRef = new Firebase("https://intense-inferno-9938.firebaseio.com/fooddonation/");
 
         rootRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 Log.d("FB", snapshot.getValue().toString());
 
-                /*for (DataSnapshot usersSnapshot : snapshot.getChildren()){
+                for (DataSnapshot usersSnapshot : snapshot.getChildren()) {
+
                     User user = new User();
-                    for (DataSnapshot offersSnapshot: usersSnapshot.getChildren()){
-                        for (DataSnapshot oneOfferSnapshot: offersSnapshot.getChildren()) {
+                    for (DataSnapshot offersSnapshot : usersSnapshot.getChildren()) {
+                        for (DataSnapshot oneOfferSnapshot : offersSnapshot.getChildren()) {
                             Offer current = oneOfferSnapshot.getValue(Offer.class);
                             allOffers.add(current);
                             user.offers.add(current);
                         }
                     }
                     users.add(user);
-                }*/
+
+                    if (mCallback != null) {
+                        mCallback.onOffersReceived(allOffers);
+                    }
+                }
+
             }
 
             @Override
@@ -91,5 +93,9 @@ public class DataManager {
                 Log.d("FB", "The read failed: " + firebaseError.getMessage());
             }
         });
+    }
+
+    public void setCallback(DataCallback callback) {
+        mCallback = callback;
     }
 }

@@ -6,4 +6,6 @@
     <string name="ok">OK</string>
     <string name="welcome">Welcome to Food Donation!</string>
     <string name="tutorial_text">Pin a marker on the map to accept a donation, or you can offer one using the menu buttons.</string>
+    <string name="title_activity_donation_list">DonationListActivity</string>
+    <string name="title_activity_detailed_donation">DetailedDonationActivity</string>
 </resources>
