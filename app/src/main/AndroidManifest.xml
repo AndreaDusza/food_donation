@@ -17,6 +17,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".DonationListActivity"
+            android:label="@string/title_activity_donation_list" >
+        </activity>
+        <activity
+            android:name=".DetailedDonationActivity"
+            android:label="@string/title_activity_detailed_donation" >
+        </activity>
     </application>
 
 </manifest>

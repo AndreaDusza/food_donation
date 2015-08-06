@@ -14,12 +14,12 @@ import java.util.ArrayList;
  * Created by demouser on 8/6/15.
  */
 public class DataManager {
+    private DataCallback mCallback;
     private static DataManager dm;
     private ArrayList<Offer> allOffers =  new ArrayList<Offer>();
     private ArrayList<Offer> allActiveOffers =  new ArrayList<Offer>();
     private ArrayList<User> users =  new ArrayList<User>();
     private Firebase rootRef;
-    //private Firebase rootRef;
 
     public static DataManager get(){
         return dm;
@@ -38,7 +38,8 @@ public class DataManager {
 
     public DataManager(Context context) {
         Firebase.setAndroidContext(context);
-        //rootRef = new Firebase("https://intense-inferno-9938.firebaseio.com/fooddonation/users/");
+
+        allOffers = new ArrayList<Offer>();
         rootRef = new Firebase("https://intense-inferno-9938.firebaseio.com/fooddonation/users/");
 
         rootRef.addValueEventListener(new ValueEventListener() {
@@ -46,19 +47,28 @@ public class DataManager {
             public void onDataChange(DataSnapshot snapshot) {
                 Log.d("FB", snapshot.getValue().toString());
 
-                for (DataSnapshot usersSnapshot : snapshot.getChildren()){
+                for (DataSnapshot usersSnapshot : snapshot.getChildren()) {
                     User user = new User();
-                    for (DataSnapshot offersSnapshot: usersSnapshot.getChildren()){
-                        for (DataSnapshot oneOfferSnapshot: offersSnapshot.getChildren()) {
+                    for (DataSnapshot offersSnapshot : usersSnapshot.getChildren()) {
+                        for (DataSnapshot oneOfferSnapshot : offersSnapshot.getChildren()) {
                             Offer current = oneOfferSnapshot.getValue(Offer.class);
                             allOffers.add(current);
                             user.offers.add(current);
-                            if (current.isActive == true){
+                            if (current.isActive == true) {
                                 allActiveOffers.add(current);
                             }
                         }
                     }
                     users.add(user);
+
+                    for (DataSnapshot msgSnapshot : snapshot.getChildren()) {
+                        Offer current = msgSnapshot.getValue(Offer.class);
+                        allOffers.add(current);
+
+                        if (mCallback != null) {
+                            mCallback.onOffersReceived(allOffers);
+                        }
+                    }
                 }
             }
 
@@ -67,5 +77,9 @@ public class DataManager {
                 Log.d("FB", "The read failed: " + firebaseError.getMessage());
             }
         });
+    }
+
+    public void setCallback(DataCallback callback) {
+        mCallback = callback;
     }
 }
