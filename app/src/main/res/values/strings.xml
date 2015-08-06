@@ -15,4 +15,5 @@
     <string name="title_activity_donation_list">DonationListActivity</string>
     <string name="title_activity_detailed_donation">DetailedDonationActivity</string>
     <string name="donate">Donate</string>
+    <string name="title_activity_create_donation">CreateDonationActivity</string>
 </resources>
