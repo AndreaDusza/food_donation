@@ -35,8 +35,6 @@ public class DataManager {
         Firebase.setAndroidContext(context);
         usersRootRef = new Firebase("https://intense-inferno-9938.firebaseio.com/fooddonation/users/");
         offersRootRef = new Firebase("https://intense-inferno-9938.firebaseio.com/fooddonation/offers/");
-
-        registerNewOffer(new Offer());
         offersRootRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
