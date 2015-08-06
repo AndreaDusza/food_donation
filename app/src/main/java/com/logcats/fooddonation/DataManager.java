@@ -15,14 +15,9 @@ import java.util.ArrayList;
  */
 public class DataManager {
     private static DataManager dm;
-
-    public ArrayList<Offer> getAllOffers() {
-        return allOffers;
-    }
-
-    private ArrayList<Offer> allOffers;
-    private ArrayList<Offer> allActiveOffers;
-    private ArrayList<User> users;
+    private ArrayList<Offer> allOffers =  new ArrayList<Offer>();
+    private ArrayList<Offer> allActiveOffers =  new ArrayList<Offer>();
+    private ArrayList<User> users =  new ArrayList<User>();
     private Firebase rootRef;
     //private Firebase rootRef;
 
@@ -30,20 +25,40 @@ public class DataManager {
         return dm;
     }
 
+    public ArrayList<Offer> getAllOffers() {
+        return allOffers;
+    }
+    public ArrayList<Offer> getAllActiveOffers() {
+        return allActiveOffers;
+    }
+
+    public ArrayList<User> getUsers() {
+        return users;
+    }
+
     public DataManager(Context context) {
         Firebase.setAndroidContext(context);
-        allOffers = new ArrayList<Offer>();
         //rootRef = new Firebase("https://intense-inferno-9938.firebaseio.com/fooddonation/users/");
-        rootRef = new Firebase("https://intense-inferno-9938.firebaseio.com/fooddonation/users/user1/offers/");
+        rootRef = new Firebase("https://intense-inferno-9938.firebaseio.com/fooddonation/users/");
 
         rootRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 Log.d("FB", snapshot.getValue().toString());
 
-                for (DataSnapshot msgSnapshot : snapshot.getChildren()){
-                    Offer current = msgSnapshot.getValue(Offer.class);
-                    allOffers.add(current);
+                for (DataSnapshot usersSnapshot : snapshot.getChildren()){
+                    User user = new User();
+                    for (DataSnapshot offersSnapshot: usersSnapshot.getChildren()){
+                        for (DataSnapshot oneOfferSnapshot: offersSnapshot.getChildren()) {
+                            Offer current = oneOfferSnapshot.getValue(Offer.class);
+                            allOffers.add(current);
+                            user.offers.add(current);
+                            if (current.isActive == true){
+                                allActiveOffers.add(current);
+                            }
+                        }
+                    }
+                    users.add(user);
                 }
             }
 
