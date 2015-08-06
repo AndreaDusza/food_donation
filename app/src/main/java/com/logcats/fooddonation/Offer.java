@@ -7,7 +7,7 @@ import java.util.Date;
  * Created by demouser on 8/6/15.
  */
 public class Offer implements Serializable{
-    public static final String NO_IMG_AVAILABLE = "https://lh5.googleusercontent.com/-tHVczjX7COs/AAAAAAAAAAI/AAAAAAAA0Cg/0_Sd9gpSpSI/photo.jpg";
+    public static final String NO_IMG_AVAILABLE = "http://properties.halpernent.com/property/images/No_Image.png";
     private String userId;
     private String id;
     private String availabilityTime;
