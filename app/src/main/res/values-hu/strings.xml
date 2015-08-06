@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Etel adomanyok</string>
+    <string name="app_name">Food donations</string>
     <string name="hello_world">Szia vilag!</string>
     <string name="action_settings">Beallitasok</string>
     <string name="ok">OK</string>
