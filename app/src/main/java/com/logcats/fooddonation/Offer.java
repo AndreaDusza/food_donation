@@ -6,7 +6,8 @@ import java.util.Date;
 /**
  * Created by demouser on 8/6/15.
  */
-public class Offer implements Serializable{
+
+public class Offer implements Serializable {
     public static final String NO_IMG_AVAILABLE = "https://lh5.googleusercontent.com/-tHVczjX7COs/AAAAAAAAAAI/AAAAAAAA0Cg/0_Sd9gpSpSI/photo.jpg";
     private String userId;
     private String id;
@@ -18,7 +19,7 @@ public class Offer implements Serializable{
     private String title;
     private String description;
     private String picUrl;
-    private boolean active;
+    private boolean isActive;
 
     public Offer() {
         userId="";
@@ -31,7 +32,7 @@ public class Offer implements Serializable{
         title="";
         description="";
         picUrl=NO_IMG_AVAILABLE;
-        active=true;
+        isActive=true;
     }
 
     public Offer(String availabilityTime, String title, String description, String picUrl) {
@@ -39,19 +40,17 @@ public class Offer implements Serializable{
         this.title = title;
         this.description = description;
         this.picUrl = picUrl;
-        active = true;
+        isActive = true;
         postCreationDate = new Date();
-        availabilityTime = new String("");
-        deactivationDate = new Date(System.currentTimeMillis());
-        postCreationDate= new Date(System.currentTimeMillis());
+        deactivationDate = new Date();
     }
 
     public boolean isActive() {
-        return active;
+        return isActive;
     }
 
     public void setActive(boolean active) {
-        this.active = active;
+        this.isActive = active;
     }
 
     public String getUserId() {
@@ -132,5 +131,9 @@ public class Offer implements Serializable{
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public boolean isPicturePresent() {
+        return picUrl != null && !picUrl.equals("");
     }
 }
