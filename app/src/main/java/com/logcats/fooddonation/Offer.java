@@ -8,6 +8,7 @@ import java.util.Date;
  */
 public class Offer implements Serializable{
     public static final String NO_IMG_AVAILABLE = "http://properties.halpernent.com/property/images/No_Image.png";
+
     private String userId;
     private String id;
     private String availabilityTime;
@@ -41,9 +42,7 @@ public class Offer implements Serializable{
         this.picUrl = picUrl;
         active = true;
         postCreationDate = new Date();
-        availabilityTime = new String("");
-        deactivationDate = new Date(System.currentTimeMillis());
-        postCreationDate= new Date(System.currentTimeMillis());
+        deactivationDate = new Date();
     }
 
     public boolean isActive() {
@@ -132,5 +131,9 @@ public class Offer implements Serializable{
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public boolean isPicturePresent() {
+        return picUrl != null && !picUrl.equals("");
     }
 }
