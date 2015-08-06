@@ -6,7 +6,8 @@ import java.util.Date;
 /**
  * Created by demouser on 8/6/15.
  */
-public class Offer implements Serializable{
+
+public class Offer implements Serializable {
     public static final String NO_IMG_AVAILABLE = "https://lh5.googleusercontent.com/-tHVczjX7COs/AAAAAAAAAAI/AAAAAAAA0Cg/0_Sd9gpSpSI/photo.jpg";
     private String userId;
     private String id;
@@ -18,6 +19,7 @@ public class Offer implements Serializable{
     private String title;
     private String description;
     private String picUrl;
+    private boolean isActive;
     private boolean active;
 
     public Offer() {
@@ -41,9 +43,7 @@ public class Offer implements Serializable{
         this.picUrl = picUrl;
         active = true;
         postCreationDate = new Date();
-        availabilityTime = new String("");
-        deactivationDate = new Date(System.currentTimeMillis());
-        postCreationDate= new Date(System.currentTimeMillis());
+        deactivationDate = new Date();
     }
 
     public boolean isActive() {
@@ -132,5 +132,9 @@ public class Offer implements Serializable{
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public boolean isPicturePresent() {
+        return picUrl != null && !picUrl.equals("");
     }
 }
