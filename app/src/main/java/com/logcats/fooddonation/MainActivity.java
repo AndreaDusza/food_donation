@@ -13,11 +13,13 @@ public class MainActivity extends Activity {
 
     public static final String PREFERENCES_FILE_NAME = "MyAppPreferences";
     private SharedPreferences prefs;
+    private DataManager dm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        dm = new DataManager(this);
         prefs = this.getSharedPreferences(PREFERENCES_FILE_NAME, MODE_PRIVATE);
         greetUserAtFirstTime();
     }
