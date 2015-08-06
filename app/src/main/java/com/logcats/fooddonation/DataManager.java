@@ -80,7 +80,7 @@ public class DataManager {
                         }
                     }
                     users.add(user);
-
+                    
                     if (mCallback != null) {
                         mCallback.onOffersReceived(allOffers);
                     }
