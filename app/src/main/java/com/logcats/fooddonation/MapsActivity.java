@@ -17,7 +17,10 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class MapsActivity extends FragmentActivity {
+import java.util.ArrayList;
+import java.util.List;
+
+public class MapsActivity extends FragmentActivity implements DataCallback {
 
     public static String USER_MARKER_LOCATION_TITLE = "You are here";
     public static String STARTING_MARKER_LOCATION_TITLE = "Starting Location";
@@ -31,16 +34,22 @@ public class MapsActivity extends FragmentActivity {
     Marker userMarker;
     LocationSearch locationSearch;
     Location lastLocation;
+    ArrayList<Marker> markers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        DataManager dataManager = new DataManager(this);
+        dataManager.setCallback(this);
+
         locationSearch = new LocationSearch();
+        markers = new ArrayList<>();
 
         setContentView(R.layout.activity_maps);
         setUpMapIfNeeded();
         locationSearch.getCurrentPosition();
+
 
     }
 
@@ -97,6 +106,23 @@ public class MapsActivity extends FragmentActivity {
                     DEFAULT_MAP_ZOOM));
         }
         Log.d("Location", "Marker set: " + userLocation.toString());
+    }
+
+    @Override
+    public void onOffersReceived(List<Offer> offers) {
+
+        Marker marker;
+        for(Offer offer : offers) {
+            if(mMap == null) {
+                Log.d("Location", "Cannot add markers - null Map");
+                return;
+            }
+            marker = mMap.addMarker(new MarkerOptions()
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW))
+                    .position(new LatLng(offer.getLatitude(), offer.getLongitude()))
+                    .title(offer.getTitle()));
+            markers.add(marker);
+        }
     }
 
     public class LocationSearch {
