@@ -5,4 +5,6 @@
     <string name="ok">OK</string>
     <string name="welcome">Welcome to Food Donation!</string>
     <string name="tutorial_text">Pin a marker on the map to accept a donation, or you can offer one using the menu buttons.</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="title_activity_map_pane">MapPaneActivity</string>s
 </resources>

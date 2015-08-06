@@ -3,7 +3,9 @@ package com.logcats.fooddonation;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,7 +21,11 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         prefs = this.getSharedPreferences(PREFERENCES_FILE_NAME, MODE_PRIVATE);
-        greetUserAtFirstTime();
+        //greetUserAtFirstTime();
+
+        // @Stefania
+        Intent i = new Intent(this, MapsActivity.class);
+        startActivity(i);
     }
 
     @Override
