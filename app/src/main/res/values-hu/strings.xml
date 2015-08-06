@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Etel adomanyok</string>
+    <string name="hello_world">Szia vilag!</string>
+    <string name="action_settings">Beallitasok</string>
+    <string name="ok">OK</string>
+    <string name="welcome">Udvozollek!</string>
+    <string name="tutorial_text">Erints meg egy jelolot a terkepen, hogy elfogadd az adomanyt, vagy ajanlj fel egyet.</string>
+</resources>

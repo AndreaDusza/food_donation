@@ -1,6 +1,9 @@
 package com.logcats.fooddonation;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -8,10 +11,15 @@ import android.view.MenuItem;
 
 public class MainActivity extends Activity {
 
+    public static final String PREFERENCES_FILE_NAME = "MyAppPreferences";
+    private SharedPreferences prefs;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        prefs = this.getSharedPreferences(PREFERENCES_FILE_NAME, MODE_PRIVATE);
+        greetUserAtFirstTime();
     }
 
     @Override
@@ -34,5 +42,26 @@ public class MainActivity extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void greetUserAtFirstTime(){
+        String welcome_screen_shown = "welcome_screen_shown";
+        boolean welcomeScreenShown = prefs.getBoolean(welcome_screen_shown, false);
+        if (!welcomeScreenShown) {
+            showWelcomeScreen();
+            prefs.edit().putBoolean(welcome_screen_shown,true).commit();
+        }
+    }
+
+    private void showWelcomeScreen() {
+        new AlertDialog.Builder(this)
+                .setTitle(getString(R.string.welcome))
+                .setMessage(getString(R.string.tutorial_text))
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // continue with delete
+                    }
+                })
+                .show();
     }
 }
