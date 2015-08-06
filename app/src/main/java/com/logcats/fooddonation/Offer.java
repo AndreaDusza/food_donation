@@ -20,7 +20,6 @@ public class Offer implements Serializable {
     private String description;
     private String picUrl;
     private boolean isActive;
-    private boolean active;
 
     public Offer() {
         userId="";
@@ -33,7 +32,7 @@ public class Offer implements Serializable {
         title="";
         description="";
         picUrl=NO_IMG_AVAILABLE;
-        active=true;
+        isActive=true;
     }
 
     public Offer(String availabilityTime, String title, String description, String picUrl) {
@@ -41,17 +40,17 @@ public class Offer implements Serializable {
         this.title = title;
         this.description = description;
         this.picUrl = picUrl;
-        active = true;
+        isActive = true;
         postCreationDate = new Date();
         deactivationDate = new Date();
     }
 
     public boolean isActive() {
-        return active;
+        return isActive;
     }
 
     public void setActive(boolean active) {
-        this.active = active;
+        this.isActive = active;
     }
 
     public String getUserId() {
