@@ -7,6 +7,7 @@ import java.util.Date;
  * Created by demouser on 8/6/15.
  */
 public class Offer implements Serializable{
+    public String id;
     public String availabilityTime;
     public Date deactivationDate;
     public Date postCreationDate;
