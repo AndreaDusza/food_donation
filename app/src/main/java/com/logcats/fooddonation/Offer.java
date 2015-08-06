@@ -30,9 +30,7 @@ public class Offer implements Serializable{
         this.picUrl = picUrl;
         isActive = true;
         postCreationDate = new Date();
-        availabilityTime = new String("");
-        deactivationDate = new Date(System.currentTimeMillis());
-        postCreationDate= new Date(System.currentTimeMillis());
+        deactivationDate = new Date();
     }
 
     public String getAvailabilityTime() {
@@ -105,5 +103,9 @@ public class Offer implements Serializable{
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public boolean isPicturePresent() {
+        return picUrl != null && !picUrl.equals("");
     }
 }
