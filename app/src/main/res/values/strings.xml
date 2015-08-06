@@ -7,4 +7,8 @@
     <string name="welcome">Welcome to Food Donation!</string>
     <string name="tutorial_text">Pin a marker on the map to accept a donation, or you can offer one using the menu buttons.</string>
     <string name="title_activity_login">LoginActivity</string>
+    <string name="firebase_url">https://intense-inferno-9938.firebaseio.com/</string>
+    <string name="login_with_google">Login with Google+</string>
+    <string name="action_logout">Logout</string>
+    <string name="title_activity_user_login">UserLoginActivity</string>
 </resources>
