@@ -16,7 +16,7 @@ import java.util.ArrayList;
 public class DataManager {
     private static DataManager dm;
 
-    public ArrayList<Offer> getAllOffers() {
+  /*  public ArrayList<Offer> getAllOffers() {
         return allOffers;
     }
 
@@ -52,5 +52,5 @@ public class DataManager {
                 Log.d("FB", "The read failed: " + firebaseError.getMessage());
             }
         });
-    }
+    }*/
 }

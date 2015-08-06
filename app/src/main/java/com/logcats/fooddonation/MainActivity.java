@@ -19,8 +19,10 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        dm = new DataManager(this);
+
+        //dm = new DataManager(this);
         prefs = this.getSharedPreferences(PREFERENCES_FILE_NAME, MODE_PRIVATE);
+
         greetUserAtFirstTime();
     }
 
