@@ -22,7 +22,7 @@ public class DataManager {
     private Firebase offersRootRef;
 
     public void registerNewOffer(Offer o){
-        usersRootRef.child("offers/").push().setValue(o);
+        offersRootRef.push().setValue(o);
         Log.d("FB", "New offer registered");
     }
 
@@ -36,6 +36,7 @@ public class DataManager {
         usersRootRef = new Firebase("https://intense-inferno-9938.firebaseio.com/fooddonation/users/");
         offersRootRef = new Firebase("https://intense-inferno-9938.firebaseio.com/fooddonation/offers/");
 
+        registerNewOffer(new Offer());
         offersRootRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {

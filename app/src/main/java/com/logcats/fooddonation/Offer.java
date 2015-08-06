@@ -7,20 +7,31 @@ import java.util.Date;
  * Created by demouser on 8/6/15.
  */
 public class Offer implements Serializable{
-    public String id;
-    public String availabilityTime;
-    public Date deactivationDate;
-    public Date postCreationDate;
-    public double latitude;
-    public double longitude;
-    public String title;
-    public String description;
-    public String picUrl;
-
-    public boolean isActive;
+    public static final String NO_IMG_AVAILABLE = "https://lh5.googleusercontent.com/-tHVczjX7COs/AAAAAAAAAAI/AAAAAAAA0Cg/0_Sd9gpSpSI/photo.jpg";
+    private String userId;
+    private String id;
+    private String availabilityTime;
+    private Date deactivationDate;
+    private Date postCreationDate;
+    private double latitude;
+    private double longitude;
+    private String title;
+    private String description;
+    private String picUrl;
+    private boolean active;
 
     public Offer() {
-
+        userId="";
+        id="";
+        availabilityTime="";
+        postCreationDate = new Date(System.currentTimeMillis());
+        deactivationDate = new Date(System.currentTimeMillis());
+        latitude=0;
+        longitude=0;
+        title="";
+        description="";
+        picUrl=NO_IMG_AVAILABLE;
+        active=true;
     }
 
     public Offer(String availabilityTime, String title, String description, String picUrl) {
@@ -28,11 +39,35 @@ public class Offer implements Serializable{
         this.title = title;
         this.description = description;
         this.picUrl = picUrl;
-        isActive = true;
+        active = true;
         postCreationDate = new Date();
         availabilityTime = new String("");
         deactivationDate = new Date(System.currentTimeMillis());
         postCreationDate= new Date(System.currentTimeMillis());
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getAvailabilityTime() {
@@ -89,14 +124,6 @@ public class Offer implements Serializable{
 
     public void setPicUrl(String picUrl) {
         this.picUrl = picUrl;
-    }
-
-    public boolean isActive() {
-        return isActive;
-    }
-
-    public void setIsActive(boolean isActive) {
-        this.isActive = isActive;
     }
 
     public String getDescription() {
