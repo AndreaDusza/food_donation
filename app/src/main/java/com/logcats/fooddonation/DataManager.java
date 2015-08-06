@@ -14,37 +14,45 @@ import java.util.ArrayList;
  * Created by demouser on 8/6/15.
  */
 public class DataManager {
+    private DataCallback mCallback;
     private static DataManager dm;
+    private ArrayList<Offer> allOffers =  new ArrayList<Offer>();
+    private ArrayList<User> users =  new ArrayList<User>();
+    private Firebase usersRootRef;
+    private Firebase offersRootRef;
 
-  /*  public ArrayList<Offer> getAllOffers() {
+    public ArrayList<Offer> getAllOffers() {
         return allOffers;
     }
 
-    private ArrayList<Offer> allOffers;
-    private ArrayList<Offer> allActiveOffers;
-    private ArrayList<User> users;
-    private Firebase rootRef;
-    //private Firebase rootRef;
+    public void registerNewOffer(Offer o){
+        offersRootRef.push().setValue(o);
+        Log.d("FB", "New offer registered");
+    }
 
-    public static DataManager get(){
-        return dm;
+    public User getUserForOffer(Offer offer){
+        //TODO
+        return null;
     }
 
     public DataManager(Context context) {
         Firebase.setAndroidContext(context);
-        allOffers = new ArrayList<Offer>();
-        //rootRef = new Firebase("https://intense-inferno-9938.firebaseio.com/fooddonation/users/");
-        rootRef = new Firebase("https://intense-inferno-9938.firebaseio.com/fooddonation/users/user1/offers/");
-
-        rootRef.addValueEventListener(new ValueEventListener() {
+        usersRootRef = new Firebase("https://intense-inferno-9938.firebaseio.com/fooddonation/users/");
+        offersRootRef = new Firebase("https://intense-inferno-9938.firebaseio.com/fooddonation/offers/");
+        offersRootRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 Log.d("FB", snapshot.getValue().toString());
+                allOffers =  new ArrayList<Offer>();
+                for (DataSnapshot offerSnapshot : snapshot.getChildren()) {
 
-                for (DataSnapshot msgSnapshot : snapshot.getChildren()){
-                    Offer current = msgSnapshot.getValue(Offer.class);
+                    Offer current = offerSnapshot.getValue(Offer.class);
                     allOffers.add(current);
                 }
+                if (mCallback != null) {
+                    mCallback.onOffersReceived(allOffers);
+                }
+
             }
 
             @Override
@@ -52,5 +60,9 @@ public class DataManager {
                 Log.d("FB", "The read failed: " + firebaseError.getMessage());
             }
         });
-    }*/
+    }
+
+    public void setCallback(DataCallback callback) {
+        mCallback = callback;
+    }
 }
