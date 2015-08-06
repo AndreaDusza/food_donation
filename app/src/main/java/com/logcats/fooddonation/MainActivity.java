@@ -34,7 +34,6 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, UserLoginActivity.class);
-                intent.putExtra(UserLoginActivity.REDIRECT_CLASS_STRING, CLASS_NAME);
                 startActivityForResult(intent, UserLoginActivity.ACTION_LOGIN);
             }
         });
