@@ -47,6 +47,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.logcats.fooddonation.MainActivity" />
         </activity>
+
+        <activity
+            android:name=".DonationListActivity"
+            android:label="@string/title_activity_donation_list" >
+        </activity>
+        <activity
+            android:name=".DetailedDonationActivity"
+            android:label="@string/title_activity_detailed_donation" >
+        </activity>
     </application>
 
 </manifest>
