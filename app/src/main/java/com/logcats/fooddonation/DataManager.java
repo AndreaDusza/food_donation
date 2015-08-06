@@ -39,7 +39,7 @@ public class DataManager {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 Log.d("FB", snapshot.getValue().toString());
-
+                allOffers =  new ArrayList<Offer>();
                 for (DataSnapshot offerSnapshot : snapshot.getChildren()) {
 
                     Offer current = offerSnapshot.getValue(Offer.class);
