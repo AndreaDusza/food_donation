@@ -17,39 +17,54 @@ public class DataManager {
     private DataCallback mCallback;
     private static DataManager dm;
     private ArrayList<Offer> allOffers =  new ArrayList<Offer>();
+    private ArrayList<Offer> allActiveOffers =  new ArrayList<Offer>();
     private ArrayList<User> users =  new ArrayList<User>();
-    private Firebase usersRootRef;
-    private Firebase offersRootRef;
+    private Firebase rootRef;
 
-    public void registerNewOffer(Offer o){
-        usersRootRef.child("offers/").push().setValue(o);
-        Log.d("FB", "New offer registered");
+    public static DataManager get(){
+        return dm;
     }
 
-    public User getUserForOffer(Offer offer){
-        //TODO
-        return null;
+    public ArrayList<Offer> getAllOffers() {
+        return allOffers;
+    }
+    public ArrayList<Offer> getAllActiveOffers() {
+        return allActiveOffers;
+    }
+
+    public ArrayList<User> getUsers() {
+        return users;
     }
 
     public DataManager(Context context) {
         Firebase.setAndroidContext(context);
-        usersRootRef = new Firebase("https://intense-inferno-9938.firebaseio.com/fooddonation/users/");
-        offersRootRef = new Firebase("https://intense-inferno-9938.firebaseio.com/fooddonation/offers/");
 
-        offersRootRef.addValueEventListener(new ValueEventListener() {
+        allOffers = new ArrayList<Offer>();
+        rootRef = new Firebase("https://intense-inferno-9938.firebaseio.com/fooddonation/users/");
+
+        rootRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 Log.d("FB", snapshot.getValue().toString());
 
-                for (DataSnapshot offerSnapshot : snapshot.getChildren()) {
+                for (DataSnapshot usersSnapshot : snapshot.getChildren()) {
+                    User user = new User();
+                    for (DataSnapshot offersSnapshot : usersSnapshot.getChildren()) {
+                        for (DataSnapshot oneOfferSnapshot : offersSnapshot.getChildren()) {
+                            Offer current = oneOfferSnapshot.getValue(Offer.class);
+                            allOffers.add(current);
 
-                    Offer current = offerSnapshot.getValue(Offer.class);
-                    allOffers.add(current);
-                }
-                if (mCallback != null) {
-                    mCallback.onOffersReceived(allOffers);
-                }
+                            if (current.isActive() == true) {
+                                allActiveOffers.add(current);
+                            }
+                        }
+                    }
 
+                    users.add(user);
+                    if (mCallback != null) {
+                        mCallback.onOffersReceived(allOffers);
+                    }
+                }
             }
 
             @Override

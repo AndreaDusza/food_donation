@@ -6,18 +6,17 @@ import java.util.Date;
 /**
  * Created by demouser on 8/6/15.
  */
-public class Offer implements Serializable{
-    public String id;
-    public String availabilityTime;
-    public Date deactivationDate;
-    public Date postCreationDate;
-    public double latitude;
-    public double longitude;
-    public String title;
-    public String description;
-    public String picUrl;
-
-    public boolean isActive;
+public class Offer implements Serializable {
+    private String id;
+    private String availabilityTime;
+    private Date deactivationDate;
+    private  Date postCreationDate;
+    private double latitude;
+    private double longitude;
+    private String title;
+    private String description;
+    private String picUrl;
+    private boolean isActive;
 
     public Offer() {
 

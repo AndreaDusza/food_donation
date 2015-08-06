@@ -81,6 +81,7 @@ public class DonationAdapter extends BaseAdapter {
             Picasso.with(mContext).load(currentOffer.getPicUrl()).into(holder.foodImage);
         }
 
+        //TODO: Set the donators name
         return view;
     }
 

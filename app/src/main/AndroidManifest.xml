@@ -28,12 +28,21 @@
             </intent-filter>
         </activity>
         <activity
+<<<<<<< HEAD
             android:name=".DetailedDonationActivity"
             android:label="@string/title_activity_detailed_donation" >
         </activity>
         <activity
             android:name=".CreateDonationActivity"
             android:label="@string/title_activity_create_donation" >
+=======
+            android:name=".DonationListActivity"
+            android:label="@string/title_activity_donation_list" >
+        </activity>
+        <activity
+            android:name=".DetailedDonationActivity"
+            android:label="@string/title_activity_detailed_donation" >
+>>>>>>> e44c988b6f1af7b90874e42d1e042ea6f853cfff
         </activity>
     </application>
 
