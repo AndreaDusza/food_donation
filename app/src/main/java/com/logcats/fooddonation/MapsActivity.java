@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.firebase.client.AuthData;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -123,6 +124,16 @@ public class MapsActivity extends FragmentActivity implements DataCallback {
                     .title(offer.getTitle()));
             markers.add(marker);
         }
+    }
+
+    @Override
+    public void onUsersReceived(List<User> users) {
+        // do nothing
+    }
+
+    @Override
+    public void onAuthStateChanged(AuthData authData) {
+        // Do nothing
     }
 
     public class LocationSearch {
