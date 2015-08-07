@@ -2,10 +2,13 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/FoodDonation.iml" filepath="$PROJECT_DIR$/FoodDonation.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/food_donation.iml" filepath="$PROJECT_DIR$/food_donation.iml" />
+<<<<<<< HEAD
+=======
       <module fileurl="file://$PROJECT_DIR$/food_donation.iml" filepath="$PROJECT_DIR$/food_donation.iml" />
+      <module fileurl="file://$PROJECT_DIR$/food_donation.iml" filepath="$PROJECT_DIR$/food_donation.iml" />
+>>>>>>> 56238f37759a165da509e3c87da3883748a64e85
     </modules>
   </component>
 </project>
