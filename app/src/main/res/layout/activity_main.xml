@@ -6,13 +6,14 @@
                 android:paddingRight="@dimen/activity_horizontal_margin"
                 android:paddingTop="@dimen/activity_vertical_margin"
                 android:paddingBottom="@dimen/activity_vertical_margin"
+                android:background="#a99590"
                 tools:context=".MainActivity">
 
     <android.support.v7.widget.Toolbar
+        android:background="#a99590"
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
         android:elevation="4dp"/>
 
 </RelativeLayout>
