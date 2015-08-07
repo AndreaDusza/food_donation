@@ -17,6 +17,11 @@ import java.util.List;
 
 public class DonationListActivity extends Activity  implements AdapterView.OnItemClickListener, DataCallback {
 
+    public static final String ACTION_DONATION_LIST = "donation";
+    public static final String ACTION_MANAGE_LIST = "manage";
+    private boolean isManageList = true;
+    private boolean isLoggedIn = true;
+
     public static final String OFFER_EXTRA_KEY = "offer";
     private ListView mListView;
     private DonationAdapter mAdapter;
@@ -26,10 +31,18 @@ public class DonationListActivity extends Activity  implements AdapterView.OnIte
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_donation_list);
 
+        Intent intent = getIntent();
+        if (intent != null) {
+            isManageList = intent.getAction().equals(ACTION_MANAGE_LIST);
+            isLoggedIn = intent.getBooleanExtra(MainActivity.SHARED_PREF_USER_LOGGED_IN, false);
+            Log.d("DonationListActivity", "Value isManageList: " + isManageList);
+
+        }
+
         DataManager dataManager = new DataManager(this);
         dataManager.setCallback(this);
 
-        mAdapter = new DonationAdapter(this);
+        mAdapter = new DonationAdapter(this, dataManager);
         mListView = (ListView) findViewById(R.id.donationList);
         mListView.setAdapter(mAdapter);
         mListView.setOnItemClickListener(this);
@@ -40,6 +53,7 @@ public class DonationListActivity extends Activity  implements AdapterView.OnIte
         Offer donation = (Offer) mAdapter.getItem(position);
 
         Intent detailedActivityIntent = new Intent(this, DetailedDonationActivity.class);
+        detailedActivityIntent.putExtra(MainActivity.SHARED_PREF_USER_LOGGED_IN, isLoggedIn);
         detailedActivityIntent.putExtra(OFFER_EXTRA_KEY, donation);
         startActivity(detailedActivityIntent);
     }

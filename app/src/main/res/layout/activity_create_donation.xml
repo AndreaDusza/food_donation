@@ -39,7 +39,7 @@
         android:text="@string/description_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
-    
+
     <EditText
         android:layout_marginLeft="30dp"
         android:layout_marginRight="50dp"
@@ -74,8 +74,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="#634353"
-        android:background="#a99590"
-        />
+        android:background="#a99590" />
 
     <Button
         android:id="@+id/saveButton"
