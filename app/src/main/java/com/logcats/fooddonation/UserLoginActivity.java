@@ -41,6 +41,8 @@ public class UserLoginActivity extends ActionBarActivity implements
     public static final String DATA_USER = "user";
     public static final int ACTION_LOGIN = 1;
 
+    private boolean isFinishing = false;
+
     private boolean isRegistered = false;
     private static final String TAG = MainActivity.class.getSimpleName();
 
@@ -226,7 +228,9 @@ public class UserLoginActivity extends ActionBarActivity implements
         mAuthProgressDialog.setTitle("Loading");
         mAuthProgressDialog.setMessage("Authenticating with Firebase...");
         mAuthProgressDialog.setCancelable(false);
-        mAuthProgressDialog.show();
+        if (!isFinishing()) {
+            mAuthProgressDialog.show();
+        }
 
         mAuthStateListener = new Firebase.AuthStateListener() {
             @Override
@@ -334,7 +338,9 @@ public class UserLoginActivity extends ActionBarActivity implements
         if (options.containsKey("error")) {
             showErrorDialog(options.get("error"));
         } else {
-            mAuthProgressDialog.show();
+            if (!isFinishing) {
+                mAuthProgressDialog.show();
+            }
             if (provider.equals("twitter")) {
                 // if the provider is twitter, we pust pass in additional options, so use the options endpoint
                 mFirebaseRef.authWithOAuthToken(provider, options, new AuthResultHandler(provider));
@@ -375,6 +381,7 @@ public class UserLoginActivity extends ActionBarActivity implements
             if (name != null) {
                 //mLoggedInStatusTextView.setText("Logged in as " + name + " (" + authData.getProvider() + ")");
                 mAuthProgressDialog.dismiss();
+                isFinishing = true;
                 Log.d(TAG, "Login successful or already logged in");
                 Intent intent = new Intent();
                 user = new User();
@@ -498,7 +505,9 @@ public class UserLoginActivity extends ActionBarActivity implements
     }
 
     private void getGoogleOAuthTokenAndLogin() {
-        mAuthProgressDialog.show();
+        if (!isFinishing) {
+            mAuthProgressDialog.show();
+        }
         /* Get OAuth token in Background */
         AsyncTask<Void, Void, String> task = new AsyncTask<Void, Void, String>() {
             String errorMessage = null;
