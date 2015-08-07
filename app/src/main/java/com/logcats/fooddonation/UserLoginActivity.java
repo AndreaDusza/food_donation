@@ -28,17 +28,20 @@ import com.google.android.gms.plus.Plus;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
 public class UserLoginActivity extends ActionBarActivity implements
         GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener {
+        GoogleApiClient.OnConnectionFailedListener,
+        DataCallback {
 
     public static final String REDIRECT_CLASS_STRING = "redirectClassString";
     public static final String DATA_USER = "user";
     public static final int ACTION_LOGIN = 1;
 
+    private boolean isRegistered = false;
     private static final String TAG = MainActivity.class.getSimpleName();
 
     /* *************************************
@@ -92,7 +95,8 @@ public class UserLoginActivity extends ActionBarActivity implements
 
     /* The login button for Google */
     private SignInButton mGoogleLoginButton;
-    private String user;
+    private DataManager dataManager;
+    private User user;
 
 /*
     */
@@ -274,18 +278,18 @@ public class UserLoginActivity extends ActionBarActivity implements
             /* Otherwise, it's probably the request by the Facebook login button, keep track of the session */
            // mFacebookCallbackManager.onActivityResult(requestCode, resultCode, data);
         }
-    }
+    }/*
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        /* If a user is currently authenticated, display a logout menu */
+        *//* If a user is currently authenticated, display a logout menu *//*
         if (this.mAuthData != null) {
             getMenuInflater().inflate(R.menu.menu_user_login, menu);
             return true;
         } else {
             return false;
         }
-    }
+    }*/
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -373,10 +377,14 @@ public class UserLoginActivity extends ActionBarActivity implements
                 mAuthProgressDialog.dismiss();
                 Log.d(TAG, "Login successful or already logged in");
                 Intent intent = new Intent();
-                User user = new User();
+                user = new User();
                 user.setId(authData.getUid());
                 user.setName((String) authData.getProviderData().get("displayName"));
                 user.setEmail((String) authData.getProviderData().get("email"));
+
+                dataManager = new DataManager(this);
+                dataManager.setCallback(this);
+
                 intent.putExtra(DATA_USER, user);
                 setResult(RESULT_OK, intent);
                 finish();
@@ -407,6 +415,25 @@ public class UserLoginActivity extends ActionBarActivity implements
                 .setPositiveButton(android.R.string.ok, null)
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .show();
+    }
+
+    @Override
+    public void onOffersReceived(List<Offer> offers) {
+        // do nothing
+    }
+
+    @Override
+    public void onUsersReceived(List<User> users) {
+        Log.d(TAG, "Users received");
+        if (!isRegistered) {
+            isRegistered = true;
+            dataManager.registerNewUser(user);
+        }
+    }
+
+    @Override
+    public void onAuthStateChanged(AuthData authData) {
+        // Do nothing
     }
 
     /**
