@@ -11,4 +11,9 @@
     <string name="title_activity_donation_list">DonationListActivity</string>
     <string name="title_activity_detailed_donation">DetailedDonationActivity</string>
     <string name="title_activity_create_donation">CreateDonationActivity</string>
+    <string name="title_label">Offer title</string>
+    <string name="description_label">Offer description</string>
+    <string name="availability_time_label">When are you available?</string>
+    <string name="take_picture_label">Take picture</string>
+    <string name="save_label">Save</string>
 </resources>

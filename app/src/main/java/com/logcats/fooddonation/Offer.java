@@ -132,8 +132,4 @@ public class Offer implements Serializable {
     public void setDescription(String description) {
         this.description = description;
     }
-
-    public boolean isPicturePresent() {
-        return picUrl != null && !picUrl.equals("");
-    }
 }
