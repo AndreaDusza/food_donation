@@ -21,6 +21,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2d3a3a56-4f4a-4c69-a053-03f34e029023" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/logcats/fooddonation/MainActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/logcats/fooddonation/MainActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/menu/menu_main.xml" afterPath="$PROJECT_DIR$/app/src/main/res/menu/menu_main.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Food Donation.iws" />
@@ -103,8 +105,8 @@
       <file leaf-file-name="DataManager.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/logcats/fooddonation/DataManager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.25677603">
-              <caret line="60" column="75" selection-start-line="60" selection-start-column="75" selection-end-line="60" selection-end-column="75" />
+            <state vertical-scroll-proportion="0.5563481">
+              <caret line="48" column="20" selection-start-line="48" selection-start-column="20" selection-end-line="48" selection-end-column="20" />
               <folding>
                 <element signature="e#485#492#0" expanded="true" />
               </folding>
@@ -1794,9 +1796,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
-      <pane id="PackagesPane" />
-      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -2771,8 +2770,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/logcats/fooddonation/DataManager.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.25677603">
-          <caret line="60" column="75" selection-start-line="60" selection-start-column="75" selection-end-line="60" selection-end-column="75" />
+        <state vertical-scroll-proportion="0.5563481">
+          <caret line="48" column="20" selection-start-line="48" selection-start-column="20" selection-end-line="48" selection-end-column="20" />
           <folding>
             <element signature="e#485#492#0" expanded="true" />
           </folding>
