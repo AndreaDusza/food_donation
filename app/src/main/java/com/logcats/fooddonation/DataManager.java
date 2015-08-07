@@ -3,10 +3,12 @@ package com.logcats.fooddonation;
 import android.content.Context;
 import android.util.Log;
 
+import com.firebase.client.AuthData;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
+import com.google.android.gms.plus.Plus;
 
 import java.util.ArrayList;
 
@@ -97,9 +99,23 @@ public class DataManager {
                 Log.d("FB", "The read failed: " + firebaseError.getMessage());
             }
         });
+
+        usersRootRef.addAuthStateListener(new Firebase.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(AuthData authData) {
+                Log.d("DatabaseManager", "Authentication state changed");
+                if (mCallback != null) {
+                    mCallback.onAuthStateChanged(authData);
+                }
+            }
+        });
     }
 
     public void setCallback(DataCallback callback) {
         mCallback = callback;
+    }
+
+    public void logout() {
+        usersRootRef.unauth();
     }
 }

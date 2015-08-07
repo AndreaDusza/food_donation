@@ -1,5 +1,7 @@
 package com.logcats.fooddonation;
 
+import com.firebase.client.AuthData;
+
 import java.util.List;
 
 /**
@@ -8,4 +10,5 @@ import java.util.List;
 public interface DataCallback {
     void onOffersReceived(List<Offer> offers);
     void onUsersReceived(List<User> users);
+    void onAuthStateChanged(AuthData authData);
 }
