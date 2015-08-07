@@ -17,6 +17,10 @@ import java.util.List;
 
 public class DonationListActivity extends Activity  implements AdapterView.OnItemClickListener, DataCallback {
 
+    public static final String ACTION_DONATION_LIST = "donation";
+    public static final String ACTION_MANAGE_LIST = "manage";
+    private boolean isManageList = true;
+
     public static final String OFFER_EXTRA_KEY = "offer";
     private ListView mListView;
     private DonationAdapter mAdapter;
@@ -25,6 +29,12 @@ public class DonationListActivity extends Activity  implements AdapterView.OnIte
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_donation_list);
+
+        Intent intent = getIntent();
+        if (intent != null) {
+            isManageList = intent.getAction().equals(ACTION_MANAGE_LIST);
+            Log.d("DonationListActivity", "Value isManageList: " + isManageList);
+        }
 
         DataManager dataManager = new DataManager(this);
         dataManager.setCallback(this);

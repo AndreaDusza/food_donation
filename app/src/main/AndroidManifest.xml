@@ -70,7 +70,7 @@
         <activity
             android:name=".UserLoginActivity"
             android:label="@string/title_activity_user_login"
-            android:theme="@style/Theme.AppCompat.Light" >
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" >
         </activity>
         <activity
             android:name=".CreateDonationActivity"

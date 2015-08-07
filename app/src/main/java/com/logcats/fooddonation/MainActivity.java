@@ -47,6 +47,8 @@ public class MainActivity extends Activity implements DataCallback {
 
         greetUserAtFirstTime();
 
+        final PrimaryDrawerItem manageItem = new PrimaryDrawerItem().withName("Manage");
+
         Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
         result = new DrawerBuilder()
                 .withActivity(this)
@@ -55,7 +57,7 @@ public class MainActivity extends Activity implements DataCallback {
                         new PrimaryDrawerItem().withName("Map view"),
                         new PrimaryDrawerItem().withName("List view"),
                         new PrimaryDrawerItem().withName("New donations"),
-                        new PrimaryDrawerItem().withName("Manage")
+                        manageItem
                 )
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
@@ -65,6 +67,7 @@ public class MainActivity extends Activity implements DataCallback {
                                 loggedIn = false;
                                 result.removeItem(4);
                                 result.addItem(new PrimaryDrawerItem().withName(R.string.action_login));
+                                manageItem.setEnabled(false);
                                 prefs.edit().putBoolean(SHARED_PREF_USER_LOGGED_IN, loggedIn);
                                 prefs.edit().putString(SHARED_PREF_USER_ID, userId);
                                 DataManager manager = new DataManager(getApplicationContext());
@@ -73,6 +76,7 @@ public class MainActivity extends Activity implements DataCallback {
                             } else {
                                 result.removeItem(4);
                                 result.addItem(new PrimaryDrawerItem().withName(R.string.action_logout));
+                                manageItem.setEnabled(true);
                                 loggedIn = true;
                                 prefs.edit().putBoolean(SHARED_PREF_USER_LOGGED_IN, loggedIn);
                                 prefs.edit().putString(SHARED_PREF_USER_ID, userId);
@@ -87,13 +91,19 @@ public class MainActivity extends Activity implements DataCallback {
                         if (position==0){
                             Intent i = new Intent(MainActivity.this, MapsActivity.class);
                             startActivity(i);
-                        }
-                        if (position==1){
+                        } else if (position==1){
                             Intent i = new Intent(MainActivity.this, DonationListActivity.class);
+                            i.setAction(DonationListActivity.ACTION_DONATION_LIST);
                             startActivity(i);
-                        }
-                        if (position==2){
+                        } else if (position==2){
                             Intent i = new Intent(MainActivity.this, CreateDonationActivity.class);
+                            startActivity(i);
+                        } else if (position==2){
+                            Intent i = new Intent(MainActivity.this, CreateDonationActivity.class);
+                            startActivity(i);
+                        } else if (position==3){
+                            Intent i = new Intent(MainActivity.this, DonationListActivity.class);
+                            i.setAction(DonationListActivity.ACTION_MANAGE_LIST);
                             startActivity(i);
                         }
                         return true;
@@ -104,6 +114,10 @@ public class MainActivity extends Activity implements DataCallback {
         loggedIn = prefs.getBoolean(SHARED_PREF_USER_LOGGED_IN, false);
         userId = prefs.getString(SHARED_PREF_USER_ID, "");
         result.addItem(new PrimaryDrawerItem().withName(R.string.action_login));
+
+        if (!loggedIn) {
+            manageItem.setEnabled(false);
+        }
     }
 
     @Override

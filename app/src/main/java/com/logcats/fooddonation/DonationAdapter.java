@@ -27,6 +27,7 @@ public class DonationAdapter extends BaseAdapter {
     public static final String DATE_FORMAT = "yyyy/MM/dd HH:mm:ss";
     private Context mContext;
     private List<Offer> mDonations;
+    private boolean isManageList = false;
 
     class ViewHolder {
         TextView title;
@@ -63,7 +64,7 @@ public class DonationAdapter extends BaseAdapter {
         if(convertView == null) {
             LayoutInflater inflater = LayoutInflater.from(mContext);
             view = inflater.inflate(R.layout.donation_item_view, null);
-
+            // TODO: ADD EXTRA VIEWS IF isManageList IS TRUE
             holder = new ViewHolder();
             holder.donatorName = (TextView) view.findViewById(R.id.donator);
             holder.title = (TextView) view.findViewById(R.id.title);
@@ -104,5 +105,13 @@ public class DonationAdapter extends BaseAdapter {
 
     public void setData(List<Offer> donations) {
         mDonations = donations;
+    }
+
+    public boolean isManageList() {
+        return isManageList;
+    }
+
+    public void setIsManageList(boolean isManageList) {
+        this.isManageList = isManageList;
     }
 }
