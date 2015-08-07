@@ -27,6 +27,7 @@ public class DonationAdapter extends BaseAdapter {
     public static final String DATE_FORMAT = "yyyy/MM/dd HH:mm:ss";
     private Context mContext;
     private List<Offer> mDonations;
+    private DataManager mManager;
 
     class ViewHolder {
         TextView title;
@@ -35,9 +36,10 @@ public class DonationAdapter extends BaseAdapter {
         ImageView foodImage;
     }
 
-    public DonationAdapter(Context context)  {
+    public DonationAdapter(Context context, DataManager manager)  {
         mContext = context;
         mDonations = new ArrayList<>();
+        mManager = manager;
     }
 
     @Override
@@ -81,16 +83,13 @@ public class DonationAdapter extends BaseAdapter {
         DateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
         holder.postedOn.setText(dateFormat.format(currentOffer.getPostCreationDate()));
         holder.title.setText(currentOffer.getTitle());
+        PictureUtil.diplayPhoto(mContext, currentOffer.getPicUrl(), holder.foodImage);
 
-        try {
-            byte[] data = Base64.decode(currentOffer.getPicUrl());
-            Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
-            holder.foodImage.setImageBitmap(bitmap);
-        } catch (IOException e) {
-            Picasso.with(mContext).load(currentOffer.getPicUrl()).into(holder.foodImage);
+        User user = mManager.getUserForOffer(currentOffer);
+        if(user != null) {
+            holder.donatorName.setText(user.getName());
         }
 
-        //TODO: Set the donators name
         return view;
     }
 

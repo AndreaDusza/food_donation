@@ -29,7 +29,7 @@ public class DonationListActivity extends Activity  implements AdapterView.OnIte
         DataManager dataManager = new DataManager(this);
         dataManager.setCallback(this);
 
-        mAdapter = new DonationAdapter(this);
+        mAdapter = new DonationAdapter(this, dataManager);
         mListView = (ListView) findViewById(R.id.donationList);
         mListView.setAdapter(mAdapter);
         mListView.setOnItemClickListener(this);
