@@ -228,7 +228,7 @@ public class UserLoginActivity extends ActionBarActivity implements
         mAuthProgressDialog.setTitle("Loading");
         mAuthProgressDialog.setMessage("Authenticating with Firebase...");
         mAuthProgressDialog.setCancelable(false);
-        if (!isFinishing()) {
+        if (!isFinishing) {
             mAuthProgressDialog.show();
         }
 
