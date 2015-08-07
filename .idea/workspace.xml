@@ -73,8 +73,8 @@
       <file leaf-file-name="workspace.xml" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.45553145">
-              <caret line="14" column="14" selection-start-line="14" selection-start-column="14" selection-end-line="14" selection-end-column="14" />
+            <state vertical-scroll-proportion="0.71583515">
+              <caret line="32" column="67" selection-start-line="32" selection-start-column="67" selection-end-line="32" selection-end-column="67" />
               <folding />
             </state>
           </provider>
@@ -1722,6 +1722,7 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/logcats/fooddonation/MapsActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/logcats/fooddonation/UserLoginActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/logcats/fooddonation/DataManager.java" />
+        <option value="$PROJECT_DIR$/.idea/workspace.xml" />
       </list>
     </option>
   </component>
@@ -2269,7 +2270,13 @@
       <option name="project" value="LOCAL" />
       <updated>1438913551842</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Merge branch 'dev-login' of https://github.com/AndreaDusza/food_donation into dev&#10;&#10;# Conflicts:&#10;#&#9;app/app.iml&#10;">
+      <created>1438913599215</created>
+      <option name="number" value="00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1438913599215</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
@@ -2277,7 +2284,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="845" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
