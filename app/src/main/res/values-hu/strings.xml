@@ -27,4 +27,9 @@
     <string name="manage">Karbantartás</string>
     <string name="connect">Írok!</string>
     <string name="avail_time">"Ekkor ér rá: "</string>
+    <string name="marker_show_details">Részletek</string>
+    <string name="marker_cancel">Mégse</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="marker_info_title">Adomány adatok</string>
+    <string name="you_are_here">Ön itt áll</string>
 </resources>

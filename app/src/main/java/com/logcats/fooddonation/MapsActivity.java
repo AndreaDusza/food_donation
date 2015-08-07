@@ -59,7 +59,6 @@ public class MapsActivity extends FragmentActivity implements DataCallback {
     private Drawer result;
 
 
-    public static String USER_MARKER_LOCATION_TITLE = "You are here";
     public static String STARTING_MARKER_LOCATION_TITLE = "Starting Location";
     public static double DEFAULT_LAT = 51.50;
     public static double DEFAULT_LNG = 0;
@@ -330,7 +329,7 @@ public class MapsActivity extends FragmentActivity implements DataCallback {
                     if (userMarker != null) {
                         Log.d("Location", "Move marker ");
                         userMarker.setPosition(userLocation);
-                        userMarker.setTitle(USER_MARKER_LOCATION_TITLE);
+                        userMarker.setTitle(getString(R.string.you_are_here));
                     }
                     lastLocation = currentLocation;
                 }

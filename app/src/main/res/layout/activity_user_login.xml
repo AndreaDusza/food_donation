@@ -22,7 +22,10 @@
     <com.google.android.gms.common.SignInButton
         android:id="@+id/login_with_google"
         android:text="@string/login_with_google"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_width="150dp"
+        android:layout_height="100dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        />
 
 </RelativeLayout>
