@@ -73,7 +73,7 @@ public class DonationAdapter extends BaseAdapter {
             holder.postedOn = (TextView) view.findViewById(R.id.postedOn);
             holder.foodImage = (ImageView) view.findViewById(R.id.image);
 
-            view.setTag(holder);    
+            view.setTag(holder);
         } else {
             view  = convertView;
             holder = (ViewHolder) view.getTag();

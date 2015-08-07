@@ -2,6 +2,7 @@ package com.logcats.fooddonation;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
@@ -30,6 +31,9 @@ public class DetailedDonationActivity extends Activity {
     private TextView mAvailabilityTime;
     private Button mConnectButton;
     private String recipient;
+    private boolean isLoggedIn;
+
+    public static final String PREFERENCES_FILE_NAME = "MyAppPreferences";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +46,6 @@ public class DetailedDonationActivity extends Activity {
         mPostCreation = (TextView) findViewById(R.id.creationDate);
         mDeactivationDate = (TextView) findViewById(R.id.deactivationDate);
         mAvailabilityTime = (TextView) findViewById(R.id.availabilityTime);
-        mConnectButton = (Button) findViewById(R.id.connectButton);
 
         DataManager dataManager = new DataManager(this);
 
@@ -50,6 +53,7 @@ public class DetailedDonationActivity extends Activity {
 
         if (intent != null) {
             Offer offer = (Offer) intent.getSerializableExtra(DonationListActivity.OFFER_EXTRA_KEY);
+            isLoggedIn = intent.getBooleanExtra(MainActivity.SHARED_PREF_USER_LOGGED_IN, false);
 
             if (offer != null) {
                 mTitle.setText(offer.getTitle());
@@ -68,6 +72,7 @@ public class DetailedDonationActivity extends Activity {
             }
         }
 
+        mConnectButton = (Button) findViewById(R.id.connectButton);
         mConnectButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -85,5 +90,14 @@ public class DetailedDonationActivity extends Activity {
                 }
             }
         });
+
+        if (!isLoggedIn) {
+            Log.d("Det.DonationAct.", "User not logged in");
+            mConnectButton.setVisibility(View.GONE);
+        } else {
+            Log.d("Det.DonationAct.", "User logged in");
+            mConnectButton.setVisibility(View.VISIBLE);
+        }
+
     }
 }

@@ -30,9 +30,9 @@ public class MainActivity extends Activity implements DataCallback {
     private DataManager dm;
 
     private boolean loggedIn = false;
-    private String SHARED_PREF_USER_LOGGED_IN = "user_logged_in";
+    public static String SHARED_PREF_USER_LOGGED_IN = "user_logged_in";
     private String userId = "";
-    private String SHARED_PREF_USER_ID = "uder_id";
+    public static String SHARED_PREF_USER_ID = "uder_id";
 
     private String welcome_screen_shown = "welcome_screen_shown";
     private Drawer result;
@@ -47,6 +47,7 @@ public class MainActivity extends Activity implements DataCallback {
 
         greetUserAtFirstTime();
 
+        final PrimaryDrawerItem newDonationItem = new PrimaryDrawerItem().withName("New donation");
         final PrimaryDrawerItem manageItem = new PrimaryDrawerItem().withName("Manage");
 
         Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
@@ -56,7 +57,7 @@ public class MainActivity extends Activity implements DataCallback {
                 .addDrawerItems(
                         new PrimaryDrawerItem().withName("Map view"),
                         new PrimaryDrawerItem().withName("List view"),
-                        new PrimaryDrawerItem().withName("New donations"),
+                        newDonationItem,
                         manageItem
                 )
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
@@ -67,6 +68,7 @@ public class MainActivity extends Activity implements DataCallback {
                                 loggedIn = false;
                                 result.removeItem(4);
                                 result.addItem(new PrimaryDrawerItem().withName(R.string.action_login));
+                                newDonationItem.setEnabled(false);
                                 manageItem.setEnabled(false);
                                 prefs.edit().putBoolean(SHARED_PREF_USER_LOGGED_IN, loggedIn);
                                 prefs.edit().putString(SHARED_PREF_USER_ID, userId);
@@ -76,6 +78,7 @@ public class MainActivity extends Activity implements DataCallback {
                             } else {
                                 result.removeItem(4);
                                 result.addItem(new PrimaryDrawerItem().withName(R.string.action_logout));
+                                newDonationItem.setEnabled(true);
                                 manageItem.setEnabled(true);
                                 loggedIn = true;
                                 prefs.edit().putBoolean(SHARED_PREF_USER_LOGGED_IN, loggedIn);
@@ -90,9 +93,11 @@ public class MainActivity extends Activity implements DataCallback {
 
                         if (position==0){
                             Intent i = new Intent(MainActivity.this, MapsActivity.class);
+                            i.putExtra(SHARED_PREF_USER_LOGGED_IN, loggedIn);
                             startActivity(i);
                         } else if (position==1){
                             Intent i = new Intent(MainActivity.this, DonationListActivity.class);
+                            i.putExtra(SHARED_PREF_USER_LOGGED_IN, loggedIn);
                             i.setAction(DonationListActivity.ACTION_DONATION_LIST);
                             startActivity(i);
                         } else if (position==2){
@@ -116,6 +121,7 @@ public class MainActivity extends Activity implements DataCallback {
         result.addItem(new PrimaryDrawerItem().withName(R.string.action_login));
 
         if (!loggedIn) {
+            newDonationItem.setEnabled(false);
             manageItem.setEnabled(false);
         }
     }
@@ -203,6 +209,9 @@ public class MainActivity extends Activity implements DataCallback {
 
     @Override
     public void onAuthStateChanged(AuthData authData) {
-        // do nothing
+        if (authData != null) {
+            loggedIn = true;
+            prefs.edit().putBoolean(SHARED_PREF_USER_LOGGED_IN, loggedIn);
+        }
     }
 }
