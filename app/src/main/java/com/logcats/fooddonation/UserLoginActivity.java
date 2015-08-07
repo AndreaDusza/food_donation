@@ -42,7 +42,7 @@ public class UserLoginActivity extends ActionBarActivity implements
     public static final int ACTION_LOGIN = 1;
 
     private boolean isRegistered = false;
-    private static final String TAG = MainActivity.class.getSimpleName();
+    private static final String TAG = MapsActivity.class.getSimpleName();
 
     /* *************************************
      *              GENERAL                *

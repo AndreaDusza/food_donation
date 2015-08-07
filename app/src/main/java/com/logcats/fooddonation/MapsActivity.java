@@ -1,12 +1,21 @@
 package com.logcats.fooddonation;
 
+import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
+import android.view.Window;
+import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.firebase.client.AuthData;
 import com.google.android.gms.maps.CameraUpdate;
@@ -17,11 +26,24 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.mikepenz.materialdrawer.Drawer;
+import com.mikepenz.materialdrawer.DrawerBuilder;
+import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
+import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MapsActivity extends FragmentActivity implements DataCallback {
+
+    public static final String PREFERENCES_FILE_NAME = "MyAppPreferences";
+    private SharedPreferences prefs;
+    private DataManager dm;
+    private boolean loggedIn = false;
+    private String SHARED_PREF_USER_LOGGED_IN = "user_logged_in";
+    private String welcome_screen_shown = "welcome_screen_shown";
+    private Drawer result;
+
 
     public static String USER_MARKER_LOCATION_TITLE = "You are here";
     public static String STARTING_MARKER_LOCATION_TITLE = "Starting Location";
@@ -50,6 +72,18 @@ public class MapsActivity extends FragmentActivity implements DataCallback {
         setContentView(R.layout.activity_maps);
         setUpMapIfNeeded();
         locationSearch.getCurrentPosition();
+
+        dm = new DataManager(this);
+        dm.setCallback(this);
+        prefs = this.getSharedPreferences(PREFERENCES_FILE_NAME, MODE_PRIVATE);
+
+        greetUserAtFirstTime();
+
+        Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
+        buildDrawer(toolbar);
+
+        loggedIn = prefs.getBoolean(SHARED_PREF_USER_LOGGED_IN, false);
+        result.addItem(new PrimaryDrawerItem().withName(R.string.action_login));
 
 
     }
@@ -233,4 +267,104 @@ public class MapsActivity extends FragmentActivity implements DataCallback {
             return provider1.equals(provider2);
         }
     }
+
+    private void buildDrawer(Toolbar toolbar) {
+        result = new DrawerBuilder()
+                .withActivity(this)
+                .withToolbar(toolbar)
+                .addDrawerItems(
+                        new PrimaryDrawerItem().withName(getString(R.string.map_view)),
+                        new PrimaryDrawerItem().withName(getString(R.string.list_view)),
+                        new PrimaryDrawerItem().withName(getString(R.string.new_donation)),
+                        new PrimaryDrawerItem().withName(getString(R.string.manage))
+                )
+                .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
+                    @Override
+                    public boolean onItemClick(AdapterView<?> parent, View view, int position, long id, IDrawerItem drawerItem) {
+                        if (position == 4) {
+                            if (loggedIn) {
+                                loggedIn = false;
+                                result.removeItem(4);
+                                result.addItem(new PrimaryDrawerItem().withName(R.string.action_login));
+                                prefs.edit().putBoolean(SHARED_PREF_USER_LOGGED_IN, loggedIn);
+                                DataManager manager = new DataManager(getApplicationContext());
+                                manager.logout();
+                                result.closeDrawer();
+                            } else {
+                                result.removeItem(4);
+                                result.addItem(new PrimaryDrawerItem().withName(R.string.action_logout));
+                                loggedIn = true;
+                                prefs.edit().putBoolean(SHARED_PREF_USER_LOGGED_IN, loggedIn);
+
+                                Intent intent = new Intent(MapsActivity.this, UserLoginActivity.class);
+                                startActivityForResult(intent, UserLoginActivity.ACTION_LOGIN);
+
+                                result.closeDrawer();
+                            }
+                        }
+
+                        /*if (position==0){
+                            Intent i = new Intent(MapsActivity.this, MapsActivity.class);
+                            startActivity(i);
+                        }*/
+                        if (position==1){
+                            Intent i = new Intent(MapsActivity.this, DonationListActivity.class);
+                            startActivity(i);
+                        }
+                        if (position==2){
+                            Intent i = new Intent(MapsActivity.this, CreateDonationActivity.class);
+                            startActivity(i);
+                        }
+                        return true;
+                    }
+                })
+                .build();
+    }
+
+    private void greetUserAtFirstTime() {
+        boolean welcomeScreenShown = prefs.getBoolean(welcome_screen_shown, false);
+        if (!welcomeScreenShown) {
+            showWelcomeScreen();
+            prefs.edit().putBoolean(welcome_screen_shown, true).commit();
+        }
+    }
+
+    private void showWelcomeScreen() {
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.tutorial);
+        // dialog.setTitle(R.string.welcome);
+
+        // set the custom dialog components - text, image and button
+        TextView text = (TextView) dialog.findViewById(R.id.text);
+        text.setText(R.string.tutorial_text);
+
+        Button dialogButton = (Button) dialog.findViewById(R.id.dialogButtonOK);
+        // if button is clicked, close the custom dialog
+        dialogButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+
+        });
+
+        dialog.show();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == UserLoginActivity.ACTION_LOGIN) {
+            if (resultCode == RESULT_OK) {
+                Log.d("MainActivity", "User logged in!");
+                User user = (User) data.getSerializableExtra(UserLoginActivity.DATA_USER);
+                Log.d("MainActivity", "Got user: " + user.getName());
+                loggedIn = true;
+                prefs.edit().putBoolean(SHARED_PREF_USER_LOGGED_IN, loggedIn);
+            } else if (resultCode == RESULT_CANCELED) {
+                Log.d("MainActivity", "User login was cancelled");
+            }
+        }
+    }
+
 }
