@@ -1,10 +1,10 @@
 package com.logcats.fooddonation;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -15,19 +15,17 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.firebase.client.AuthData;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
-import com.firebase.client.AuthData;
-
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements DataCallback {
+public class MainActivity extends Activity implements DataCallback {
 
     public static final String PREFERENCES_FILE_NAME = "MyAppPreferences";
-    private static final String CLASS_NAME = "com.logcats.fooddonation.MainActivity";
     private SharedPreferences prefs;
     private DataManager dm;
 
@@ -35,19 +33,20 @@ public class MainActivity extends AppCompatActivity implements DataCallback {
     private String SHARED_PREF_USER_LOGGED_IN = "user_logged_in";
 
     private String welcome_screen_shown = "welcome_screen_shown";
-    private Menu menu;
+    private Drawer result;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         dm = new DataManager(this);
+        dm.setCallback(this);
         prefs = this.getSharedPreferences(PREFERENCES_FILE_NAME, MODE_PRIVATE);
 
         greetUserAtFirstTime();
 
         Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
-        Drawer result = new DrawerBuilder()
+        result = new DrawerBuilder()
                 .withActivity(this)
                 .withToolbar(toolbar)
                 .addDrawerItems(
@@ -59,6 +58,28 @@ public class MainActivity extends AppCompatActivity implements DataCallback {
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(AdapterView<?> parent, View view, int position, long id, IDrawerItem drawerItem) {
+                        if (position == 4) {
+                            if (loggedIn) {
+                                loggedIn = false;
+                                result.removeItem(4);
+                                result.addItem(new PrimaryDrawerItem().withName(R.string.action_login));
+                                prefs.edit().putBoolean(SHARED_PREF_USER_LOGGED_IN, loggedIn);
+                                DataManager manager = new DataManager(getApplicationContext());
+                                manager.logout();
+                                result.closeDrawer();
+                            } else {
+                                result.removeItem(4);
+                                result.addItem(new PrimaryDrawerItem().withName(R.string.action_logout));
+                                loggedIn = true;
+                                prefs.edit().putBoolean(SHARED_PREF_USER_LOGGED_IN, loggedIn);
+
+                                Intent intent = new Intent(MainActivity.this, UserLoginActivity.class);
+                                startActivityForResult(intent, UserLoginActivity.ACTION_LOGIN);
+
+                                result.closeDrawer();
+                            }
+                        }
+
                         if (position==0){
                             Intent i = new Intent(MainActivity.this, MapsActivity.class);
                             startActivity(i);
@@ -75,28 +96,15 @@ public class MainActivity extends AppCompatActivity implements DataCallback {
                     }
                 })
                 .build();
-        loggedIn = prefs.getBoolean(SHARED_PREF_USER_LOGGED_IN, false);
 
-        Button button = (Button) findViewById(R.id.login);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, UserLoginActivity.class);
-                startActivityForResult(intent, UserLoginActivity.ACTION_LOGIN);
-            }
-        });
+        loggedIn = prefs.getBoolean(SHARED_PREF_USER_LOGGED_IN, false);
+        result.addItem(new PrimaryDrawerItem().withName(R.string.action_login));
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        this.menu = menu;
         getMenuInflater().inflate(R.menu.menu_main, menu);
-
-        MenuItem menuItem = menu.findItem(R.id.action_logout);
-        if (!loggedIn && menuItem != null) {
-            menuItem.setVisible(false);
-        }
 
         return true;
     }
@@ -110,13 +118,6 @@ public class MainActivity extends AppCompatActivity implements DataCallback {
         //noinspection SimplifiableIfStatement
         switch (item.getItemId()) {
             case R.id.action_settings:
-                return true;
-            case R.id.action_logout:
-                loggedIn = false;
-                menu.findItem(R.id.action_logout).setVisible(false);
-                prefs.edit().putBoolean(SHARED_PREF_USER_LOGGED_IN, loggedIn);
-                DataManager manager = new DataManager(this);
-                manager.logout();
                 return true;
         }
 
@@ -163,8 +164,6 @@ public class MainActivity extends AppCompatActivity implements DataCallback {
                 Log.d("MainActivity", "Got user: " + user.getName());
                 loggedIn = true;
                 prefs.edit().putBoolean(SHARED_PREF_USER_LOGGED_IN, loggedIn);
-                MenuItem menuItem = menu.findItem(R.id.action_logout);
-                menuItem.setVisible(true);
             } else if (resultCode == RESULT_CANCELED) {
                 Log.d("MainActivity", "User login was cancelled");
             }
@@ -183,12 +182,6 @@ public class MainActivity extends AppCompatActivity implements DataCallback {
 
     @Override
     public void onAuthStateChanged(AuthData authData) {
-        if (authData != null) {
-            loggedIn = true;
-            prefs.edit().putBoolean(SHARED_PREF_USER_LOGGED_IN, loggedIn);
-            if (menu != null) {
-                menu.findItem(R.id.action_logout).setVisible(true);
-            }
-        }
+        // do nothing
     }
 }
