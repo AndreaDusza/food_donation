@@ -20,14 +20,16 @@
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textSize="40sp"
         />
 
     <ImageView
         android:id="@+id/imageView"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/title"
-        android:layout_width="120dp"
-        android:layout_height="120dp" />
+        android:layout_width="300dp"
+        android:layout_height="300dp" />
 
     <TextView
         android:id="@+id/description"
@@ -35,8 +37,8 @@
         android:layout_below="@+id/imageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="40dp"
+        android:padding="50dp"
+        android:textSize="20sp"
         />
 
     <TextView
@@ -44,21 +46,30 @@
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/description"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        />
 
     <TextView
         android:id="@+id/creationDate"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/availabilityTime"
+        android:layout_alignParentLeft="true"
+        android:paddingLeft="50dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/deactivationDate"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/creationDate"
+        android:layout_below="@+id/availabilityTime"
+        android:layout_alignParentRight="true"
+        android:paddingRight="50dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        />
 
     <Button
         android:id="@+id/connectButton"
