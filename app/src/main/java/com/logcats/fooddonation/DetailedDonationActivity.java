@@ -83,7 +83,7 @@ public class DetailedDonationActivity extends Activity {
                     intent.putExtra(Intent.EXTRA_EMAIL, new String[]{recipient});
                 }
                 else{
-                    intent.putExtra(Intent.EXTRA_EMAIL, "malene.soeholm@gmail.com");
+                    intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"john@doe.com"});
                 }
 
                 try {
