@@ -42,7 +42,7 @@ public class MapsActivity extends FragmentActivity implements DataCallback {
     private SharedPreferences prefs;
     private DataManager dm;
     private boolean loggedIn = false;
-    private String SHARED_PREF_USER_LOGGED_IN = "user_logged_in";
+    public static String SHARED_PREF_USER_LOGGED_IN = "user_logged_in";
     private String welcome_screen_shown = "welcome_screen_shown";
     private Drawer result;
 
@@ -53,6 +53,11 @@ public class MapsActivity extends FragmentActivity implements DataCallback {
     public static double DEFAULT_LNG = 0;
     public static int MAP_ZOOM = 15;
     public static int DEFAULT_MAP_ZOOM = 5;
+
+    private String userId = "";
+    public static String SHARED_PREF_USER_ID = "uder_id";
+
+
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     LatLng userLocation;
@@ -65,28 +70,96 @@ public class MapsActivity extends FragmentActivity implements DataCallback {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        DataManager dataManager = new DataManager(this);
-        dataManager.setCallback(this);
-
         locationSearch = new LocationSearch();
         markers = new ArrayList<>();
 
         setContentView(R.layout.activity_maps);
         setUpMapIfNeeded();
         locationSearch.getCurrentPosition();
-
         dm = new DataManager(this);
         dm.setCallback(this);
         prefs = this.getSharedPreferences(PREFERENCES_FILE_NAME, MODE_PRIVATE);
 
         greetUserAtFirstTime();
 
+        final PrimaryDrawerItem newDonationItem = new PrimaryDrawerItem().withName("New donation");
+        final PrimaryDrawerItem manageItem = new PrimaryDrawerItem().withName("Manage");
+
         Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
-        buildDrawer(toolbar);
+        result = new DrawerBuilder()
+                .withActivity(this)
+                .withToolbar(toolbar)
+                .addDrawerItems(
+                        new PrimaryDrawerItem().withName("Map view"),
+                        new PrimaryDrawerItem().withName("List view"),
+                        newDonationItem,
+                        manageItem
+                )
+                .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
+                    @Override
+                    public boolean onItemClick(AdapterView<?> parent, View view, int position, long id, IDrawerItem drawerItem) {
+                        if (position == 4) {
+                            if (loggedIn) {
+                                loggedIn = false;
+                                result.removeItem(4);
+                                result.addItem(new PrimaryDrawerItem().withName(R.string.action_login));
+                                newDonationItem.setEnabled(false);
+                                manageItem.setEnabled(false);
+                                prefs.edit().putBoolean(SHARED_PREF_USER_LOGGED_IN, loggedIn);
+                                prefs.edit().putString(SHARED_PREF_USER_ID, userId);
+                                DataManager manager = new DataManager(getApplicationContext());
+                                manager.logout();
+                                result.closeDrawer();
+                            } else {
+                                result.removeItem(4);
+                                result.addItem(new PrimaryDrawerItem().withName(R.string.action_logout));
+                                newDonationItem.setEnabled(true);
+                                manageItem.setEnabled(true);
+                                loggedIn = true;
+                                prefs.edit().putBoolean(SHARED_PREF_USER_LOGGED_IN, loggedIn);
+                                prefs.edit().putString(SHARED_PREF_USER_ID, userId);
+
+                                Intent intent = new Intent(MapsActivity.this, UserLoginActivity.class);
+                                startActivityForResult(intent, UserLoginActivity.ACTION_LOGIN);
+
+                                result.closeDrawer();
+                            }
+                        }
+
+                        //TODO: What to do here?
+                        if (position==0){
+                            Intent i = new Intent(MapsActivity.this, MapsActivity.class);
+                            i.putExtra(SHARED_PREF_USER_LOGGED_IN, loggedIn);
+                            startActivity(i);
+                        } else if (position==1){
+                            Intent i = new Intent(MapsActivity.this, DonationListActivity.class);
+                            i.putExtra(SHARED_PREF_USER_LOGGED_IN, loggedIn);
+                            i.setAction(DonationListActivity.ACTION_DONATION_LIST);
+                            startActivity(i);
+                        } else if (position==2){
+                            Intent i = new Intent(MapsActivity.this, CreateDonationActivity.class);
+                            startActivity(i);
+                        } else if (position==2){
+                            Intent i = new Intent(MapsActivity.this, CreateDonationActivity.class);
+                            startActivity(i);
+                        } else if (position==3){
+                            Intent i = new Intent(MapsActivity.this, DonationListActivity.class);
+                            i.setAction(DonationListActivity.ACTION_MANAGE_LIST);
+                            startActivity(i);
+                        }
+                        return true;
+                    }
+                })
+                .build();
 
         loggedIn = prefs.getBoolean(SHARED_PREF_USER_LOGGED_IN, false);
+        userId = prefs.getString(SHARED_PREF_USER_ID, "");
         result.addItem(new PrimaryDrawerItem().withName(R.string.action_login));
 
+        if (!loggedIn) {
+            newDonationItem.setEnabled(false);
+            manageItem.setEnabled(false);
+        }
     }
 
     @Override
@@ -112,7 +185,7 @@ public class MapsActivity extends FragmentActivity implements DataCallback {
      */
     private void setUpMapIfNeeded() {
         // Do a null check to confirm that we have not already instantiated the map.
-        if (mMap == null) {
+        if (mMap == null && getSupportFragmentManager()!=null && getSupportFragmentManager().findFragmentById(R.id.map)!=null) {
             // Try to obtain the map from the SupportMapFragment.
             mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map))
                     .getMap();
@@ -168,7 +241,10 @@ public class MapsActivity extends FragmentActivity implements DataCallback {
 
     @Override
     public void onAuthStateChanged(AuthData authData) {
-        // Do nothing
+        if (authData != null) {
+            loggedIn = true;
+            prefs.edit().putBoolean(SHARED_PREF_USER_LOGGED_IN, loggedIn);
+        }
     }
 
     public class LocationSearch {
@@ -269,58 +345,6 @@ public class MapsActivity extends FragmentActivity implements DataCallback {
         }
     }
 
-    private void buildDrawer(Toolbar toolbar) {
-        result = new DrawerBuilder()
-                .withActivity(this)
-                .withToolbar(toolbar)
-                .addDrawerItems(
-                        new PrimaryDrawerItem().withName(getString(R.string.map_view)),
-                        new PrimaryDrawerItem().withName(getString(R.string.list_view)),
-                        new PrimaryDrawerItem().withName(getString(R.string.new_donation)),
-                        new PrimaryDrawerItem().withName(getString(R.string.manage))
-                )
-                .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
-                    @Override
-                    public boolean onItemClick(AdapterView<?> parent, View view, int position, long id, IDrawerItem drawerItem) {
-                        if (position == 4) {
-                            if (loggedIn) {
-                                loggedIn = false;
-                                result.removeItem(4);
-                                result.addItem(new PrimaryDrawerItem().withName(R.string.action_login));
-                                prefs.edit().putBoolean(SHARED_PREF_USER_LOGGED_IN, loggedIn);
-                                DataManager manager = new DataManager(getApplicationContext());
-                                manager.logout();
-                                result.closeDrawer();
-                            } else {
-                                result.removeItem(4);
-                                result.addItem(new PrimaryDrawerItem().withName(R.string.action_logout));
-                                loggedIn = true;
-                                prefs.edit().putBoolean(SHARED_PREF_USER_LOGGED_IN, loggedIn);
-
-                                Intent intent = new Intent(MapsActivity.this, UserLoginActivity.class);
-                                startActivityForResult(intent, UserLoginActivity.ACTION_LOGIN);
-
-                                result.closeDrawer();
-                            }
-                        }
-
-                        /*if (position==0){
-                            Intent i = new Intent(MapsActivity.this, MapsActivity.class);
-                            startActivity(i);
-                        }*/
-                        if (position==1){
-                            Intent i = new Intent(MapsActivity.this, DonationListActivity.class);
-                            startActivity(i);
-                        }
-                        if (position==2){
-                            Intent i = new Intent(MapsActivity.this, CreateDonationActivity.class);
-                            startActivity(i);
-                        }
-                        return true;
-                    }
-                })
-                .build();
-    }
 
     private void greetUserAtFirstTime() {
         boolean welcomeScreenShown = prefs.getBoolean(welcome_screen_shown, false);
@@ -360,8 +384,10 @@ public class MapsActivity extends FragmentActivity implements DataCallback {
                 Log.d("MainActivity", "User logged in!");
                 User user = (User) data.getSerializableExtra(UserLoginActivity.DATA_USER);
                 Log.d("MainActivity", "Got user: " + user.getName());
+                userId = user.getId();
                 loggedIn = true;
                 prefs.edit().putBoolean(SHARED_PREF_USER_LOGGED_IN, loggedIn);
+                prefs.edit().putString(SHARED_PREF_USER_ID, userId);
             } else if (resultCode == RESULT_CANCELED) {
                 Log.d("MainActivity", "User login was cancelled");
             }
