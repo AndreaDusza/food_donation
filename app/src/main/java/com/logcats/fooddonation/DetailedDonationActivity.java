@@ -62,7 +62,7 @@ public class DetailedDonationActivity extends Activity {
                 SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
                 mPostCreation.setText(dateFormat.format(offer.getPostCreationDate()));
                 mDeactivationDate.setText(dateFormat.format(offer.getDeactivationDate()));
-                mAvailabilityTime.setText(offer.getAvailabilityTime());
+                mAvailabilityTime.setText(getString(R.string.avail_time) + offer.getAvailabilityTime());
                 PictureUtil.diplayPhoto(this, offer.getPicUrl(), mImageView);
 
                 User user = dataManager.getUserForOffer(offer);
@@ -81,6 +81,9 @@ public class DetailedDonationActivity extends Activity {
 
                 if (recipient != null) {
                     intent.putExtra(Intent.EXTRA_EMAIL, new String[]{recipient});
+                }
+                else{
+                    intent.putExtra(Intent.EXTRA_EMAIL, "malene.soeholm@gmail.com");
                 }
 
                 try {
