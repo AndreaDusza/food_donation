@@ -1,9 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Food donations</string>
-    <string name="hello_world">Szia vilag!</string>
-    <string name="action_settings">Beallitasok</string>
+    <string name="hello_world">Szia világ!</string>
+    <string name="action_settings">Beállitások</string>
     <string name="ok">OK</string>
-    <string name="welcome">Udvozollek!</string>
-    <string name="tutorial_text">Erints meg egy jelolot a terkepen, hogy elfogadd az adomanyt, vagy ajanlj fel egyet.</string>
+    <string name="welcome">Üdvözöl a</string>
+    <string name="tutorial_text">Érints meg egy jelölőt a térképen, hogy elfogadj egy adományt, vagy ajánlj fel te egyet.</string>
+    <string name="login_with_google">Bejelentkezes Google+ használatával</string>
+    <string name="action_logout">Kijelentkezés</string>
+    <string name="action_login">Bejelentkezés</string>
+    <string name="title_activity_user_login">Bejelentkezés</string>
+    <string name="title_activity_maps">Térkepes nézet</string>
+    <string name="title_activity_map_pane">Térkép</string>
+    <string name="title_activity_donation_list">Lista nézet</string>
+    <string name="title_activity_detailed_donation">Adomány részletei</string>
+    <string name="donate">Új adomány</string>
+    <string name="title_activity_create_donation">Új adomány</string>
+    <string name="title_label">Adomány címe</string>
+    <string name="description_label">Adomány leírása</string>
+    <string name="availability_time_label">Mikor érsz rá átadni az adományt?</string>
+    <string name="take_picture_label">Fénykép készítése</string>
+    <string name="save_label">Mentés</string>
+    <string name="map_view">Térképes nézet</string>
+    <string name="list_view">Lista nézet</string>
+    <string name="new_donation">Új adomány</string>
+    <string name="manage">Karbantartás</string>
+    <string name="connect">Írok!</string>
 </resources>

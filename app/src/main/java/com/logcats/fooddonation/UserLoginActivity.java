@@ -44,7 +44,7 @@ public class UserLoginActivity extends ActionBarActivity implements
     private boolean isFinishing = false;
 
     private boolean isRegistered = false;
-    private static final String TAG = MainActivity.class.getSimpleName();
+    private static final String TAG = MapsActivity.class.getSimpleName();
 
     /* *************************************
      *              GENERAL                *

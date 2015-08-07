@@ -2,14 +2,15 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffefd1">
+    android:background="#ffefd1"
+    >
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:id="@+id/welcome"
-        android:text="Welcome to"
+        android:text="@string/welcome"
         android:textSize="32sp"
         android:textColor="#634353"
         />
@@ -27,7 +28,8 @@
         android:id="@+id/text"
         android:textSize="18sp"
         android:textColor="#634353"
-        android:text="Tap on a marker to view the details of an offer"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         />
     <ImageView
         android:layout_width="wrap_content"

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -23,8 +24,9 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 import java.util.List;
 
-public class MainActivity extends Activity implements DataCallback {
+public class MainActivity{
 
+    /*
     public static final String PREFERENCES_FILE_NAME = "MyAppPreferences";
     private SharedPreferences prefs;
     private DataManager dm;
@@ -213,5 +215,5 @@ public class MainActivity extends Activity implements DataCallback {
             loggedIn = true;
             prefs.edit().putBoolean(SHARED_PREF_USER_LOGGED_IN, loggedIn);
         }
-    }
+    }*/
 }

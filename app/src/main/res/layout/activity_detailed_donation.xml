@@ -20,45 +20,59 @@
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textSize="40sp"
         />
 
     <ImageView
         android:id="@+id/imageView"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/title"
-        android:layout_width="120dp"
-        android:layout_height="120dp" />
+        android:layout_width="300dp"
+        android:layout_height="300dp" />
 
     <TextView
+        android:textSize="22sp"
         android:id="@+id/description"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/imageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="40dp"
+        android:padding="50dp"
         />
 
     <TextView
+        android:layout_marginTop="20dp"
+        android:textSize="22sp"
         android:id="@+id/availabilityTime"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/description"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        />
 
     <TextView
+        android:layout_marginTop="20dp"
+        android:textSize="22sp"
         android:id="@+id/creationDate"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/availabilityTime"
+        android:layout_alignParentLeft="true"
+        android:paddingLeft="50dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
     <TextView
+        android:layout_marginTop="20dp"
+        android:textSize="22sp"
         android:id="@+id/deactivationDate"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/creationDate"
+        android:layout_below="@+id/availabilityTime"
+        android:layout_alignParentRight="true"
+        android:paddingRight="50dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        />
 
     <Button
         android:id="@+id/connectButton"
@@ -68,7 +82,9 @@
         android:background="@drawable/butt"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="50dp"
-        android:text="connect"
+        android:text="@string/connect"
         android:textSize="22sp"
-        android:textColor="#ffefd1" />
+        android:textColor="#ffefd1"
+        />
+        
 </RelativeLayout>

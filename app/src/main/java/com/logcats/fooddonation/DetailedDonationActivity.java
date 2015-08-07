@@ -53,7 +53,7 @@ public class DetailedDonationActivity extends Activity {
 
         if (intent != null) {
             Offer offer = (Offer) intent.getSerializableExtra(DonationListActivity.OFFER_EXTRA_KEY);
-            isLoggedIn = intent.getBooleanExtra(MainActivity.SHARED_PREF_USER_LOGGED_IN, false);
+            isLoggedIn = intent.getBooleanExtra(MapsActivity.SHARED_PREF_USER_LOGGED_IN, false);
 
             if (offer != null) {
                 mTitle.setText(offer.getTitle());

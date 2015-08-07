@@ -32,9 +32,9 @@ public class DonationListActivity extends Activity  implements AdapterView.OnIte
         setContentView(R.layout.activity_donation_list);
 
         Intent intent = getIntent();
-        if (intent != null) {
+        if (intent != null && intent.getAction()!=null) {
             isManageList = intent.getAction().equals(ACTION_MANAGE_LIST);
-            isLoggedIn = intent.getBooleanExtra(MainActivity.SHARED_PREF_USER_LOGGED_IN, false);
+            isLoggedIn = intent.getBooleanExtra(MapsActivity.SHARED_PREF_USER_LOGGED_IN, false);
             Log.d("DonationListActivity", "Value isManageList: " + isManageList);
 
         }
@@ -53,7 +53,7 @@ public class DonationListActivity extends Activity  implements AdapterView.OnIte
         Offer donation = (Offer) mAdapter.getItem(position);
 
         Intent detailedActivityIntent = new Intent(this, DetailedDonationActivity.class);
-        detailedActivityIntent.putExtra(MainActivity.SHARED_PREF_USER_LOGGED_IN, isLoggedIn);
+        detailedActivityIntent.putExtra(MapsActivity.SHARED_PREF_USER_LOGGED_IN, isLoggedIn);
         detailedActivityIntent.putExtra(OFFER_EXTRA_KEY, donation);
         startActivity(detailedActivityIntent);
     }

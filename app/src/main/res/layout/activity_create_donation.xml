@@ -15,6 +15,7 @@
         />
 
     <TextView
+        android:textSize="18sp"
         android:layout_marginTop="50dp"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="50dp"
@@ -24,6 +25,7 @@
         android:layout_height="wrap_content" />
 
     <EditText
+        android:layout_marginTop="50dp"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="50dp"
         android:id="@+id/title"
@@ -32,6 +34,8 @@
         android:layout_height="wrap_content" />
 
     <TextView
+        android:layout_marginTop="50dp"
+        android:textSize="18sp"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="50dp"
         android:id="@+id/descriptionLabel"
@@ -41,6 +45,7 @@
         android:layout_height="wrap_content" />
 
     <EditText
+        android:layout_marginTop="50dp"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="50dp"
         android:id="@+id/description"
@@ -49,6 +54,8 @@
         android:layout_height="wrap_content" />
 
     <TextView
+        android:layout_marginTop="50dp"
+        android:textSize="18sp"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="50dp"
         android:id="@+id/availabilityLabel"
@@ -58,6 +65,7 @@
         android:layout_height="wrap_content" />
 
     <EditText
+        android:layout_marginTop="50dp"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="50dp"
         android:id="@+id/availabilityTime"
@@ -73,8 +81,9 @@
         android:text="@string/take_picture_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="#634353"
-        android:background="#a99590" />
+        android:textColor="#ffefd1"
+        android:background="#3c3636"
+        />
 
     <Button
         android:id="@+id/saveButton"
