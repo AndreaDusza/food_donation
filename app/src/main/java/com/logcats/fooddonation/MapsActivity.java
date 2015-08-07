@@ -30,6 +30,8 @@ import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
+import java.util.ArrayList;
+import java.util.List;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -84,7 +86,6 @@ public class MapsActivity extends FragmentActivity implements DataCallback {
 
         loggedIn = prefs.getBoolean(SHARED_PREF_USER_LOGGED_IN, false);
         result.addItem(new PrimaryDrawerItem().withName(R.string.action_login));
-
 
     }
 

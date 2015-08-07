@@ -1,30 +1,15 @@
 package com.logcats.fooddonation;
 
 import android.app.Activity;
+import android.os.Bundle;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.hardware.Camera;
-import android.net.Uri;
-import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
-
 import com.firebase.client.utilities.Base64;
-
 import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.lang.reflect.Array;
-import java.util.Arrays;
 
 
 public class CreateDonationActivity extends Activity implements View.OnClickListener {
@@ -41,7 +26,6 @@ public class CreateDonationActivity extends Activity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_donation);
-
         mOpenCameraButton = (Button) findViewById(R.id.takePictureButton);
         mTitle = (EditText) findViewById(R.id.title);
         mDescription = (EditText) findViewById(R.id.description);

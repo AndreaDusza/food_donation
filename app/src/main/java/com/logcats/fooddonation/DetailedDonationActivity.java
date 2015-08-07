@@ -50,6 +50,7 @@ public class DetailedDonationActivity extends Activity {
                 mPostCreation.setText(dateFormat.format(offer.getPostCreationDate()));
                 mDeactivationDate.setText(dateFormat.format(offer.getDeactivationDate()));
                 mAvailabilityTime.setText(offer.getAvailabilityTime());
+
                 Picasso.with(this).load(offer.getPicUrl()).into(mImageView);
             }
         }
