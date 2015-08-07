@@ -1,7 +1,10 @@
 package com.logcats.fooddonation;
 
 import android.content.Context;
+import com.firebase.client.utilities.Base64;
+
 import android.graphics.Bitmap;
+
 import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,8 +12,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.firebase.client.utilities.Base64;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;

@@ -63,12 +63,14 @@ public class DataManager {
         offersRootRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-                Log.d("FB", snapshot.getValue().toString());
                 allOffers =  new ArrayList<Offer>();
-                for (DataSnapshot offerSnapshot : snapshot.getChildren()) {
+                if (snapshot.getValue() != null) {
+                    Log.d("FB", snapshot.getValue().toString());
+                    for (DataSnapshot offerSnapshot : snapshot.getChildren()) {
 
-                    Offer current = offerSnapshot.getValue(Offer.class);
-                    allOffers.add(current);
+                        Offer current = offerSnapshot.getValue(Offer.class);
+                        allOffers.add(current);
+                    }
                 }
                 if (mCallback != null) {
                     mCallback.onOffersReceived(allOffers);
