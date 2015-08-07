@@ -1,24 +1,34 @@
 package com.logcats.fooddonation;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
+
+import com.mikepenz.materialdrawer.Drawer;
+import com.mikepenz.materialdrawer.DrawerBuilder;
+import com.mikepenz.materialdrawer.model.DividerDrawerItem;
+import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
+import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
+import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
 
 import java.util.List;
 
-
-public class MainActivity extends Activity implements DataCallback {
+public class MainActivity extends AppCompatActivity implements DataCallback {
 
     public static final String PREFERENCES_FILE_NAME = "MyAppPreferences";
     private static final String CLASS_NAME = "com.logcats.fooddonation.MainActivity";
@@ -40,6 +50,23 @@ public class MainActivity extends Activity implements DataCallback {
 
         greetUserAtFirstTime();
 
+        Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
+        Drawer result = new DrawerBuilder()
+                .withActivity(this)
+                .withToolbar(toolbar)
+                .addDrawerItems(
+                        new PrimaryDrawerItem().withName("Map view"),
+                        new PrimaryDrawerItem().withName("List view"),
+                        new PrimaryDrawerItem().withName("New donations"),
+                        new PrimaryDrawerItem().withName("Manage")
+                )
+                .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
+                    @Override
+                    public boolean onItemClick(AdapterView<?> parent, View view, int position, long id, IDrawerItem drawerItem) {
+                        return true;
+                    }
+                })
+                .build();
         loggedIn = prefs.getBoolean(SHARED_PREF_USER_LOGGED_IN, false);
 
         Button button = (Button) findViewById(R.id.login);
