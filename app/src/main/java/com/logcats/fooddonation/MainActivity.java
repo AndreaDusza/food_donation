@@ -31,6 +31,8 @@ public class MainActivity extends Activity implements DataCallback {
 
     private boolean loggedIn = false;
     private String SHARED_PREF_USER_LOGGED_IN = "user_logged_in";
+    private String userId = "";
+    private String SHARED_PREF_USER_ID = "uder_id";
 
     private String welcome_screen_shown = "welcome_screen_shown";
     private Drawer result;
@@ -64,6 +66,7 @@ public class MainActivity extends Activity implements DataCallback {
                                 result.removeItem(4);
                                 result.addItem(new PrimaryDrawerItem().withName(R.string.action_login));
                                 prefs.edit().putBoolean(SHARED_PREF_USER_LOGGED_IN, loggedIn);
+                                prefs.edit().putString(SHARED_PREF_USER_ID, userId);
                                 DataManager manager = new DataManager(getApplicationContext());
                                 manager.logout();
                                 result.closeDrawer();
@@ -72,6 +75,7 @@ public class MainActivity extends Activity implements DataCallback {
                                 result.addItem(new PrimaryDrawerItem().withName(R.string.action_logout));
                                 loggedIn = true;
                                 prefs.edit().putBoolean(SHARED_PREF_USER_LOGGED_IN, loggedIn);
+                                prefs.edit().putString(SHARED_PREF_USER_ID, userId);
 
                                 Intent intent = new Intent(MainActivity.this, UserLoginActivity.class);
                                 startActivityForResult(intent, UserLoginActivity.ACTION_LOGIN);
@@ -98,6 +102,7 @@ public class MainActivity extends Activity implements DataCallback {
                 .build();
 
         loggedIn = prefs.getBoolean(SHARED_PREF_USER_LOGGED_IN, false);
+        userId = prefs.getString(SHARED_PREF_USER_ID, "");
         result.addItem(new PrimaryDrawerItem().withName(R.string.action_login));
     }
 
@@ -162,8 +167,10 @@ public class MainActivity extends Activity implements DataCallback {
                 Log.d("MainActivity", "User logged in!");
                 User user = (User) data.getSerializableExtra(UserLoginActivity.DATA_USER);
                 Log.d("MainActivity", "Got user: " + user.getName());
+                userId = user.getId();
                 loggedIn = true;
                 prefs.edit().putBoolean(SHARED_PREF_USER_LOGGED_IN, loggedIn);
+                prefs.edit().putString(SHARED_PREF_USER_ID, userId);
             } else if (resultCode == RESULT_CANCELED) {
                 Log.d("MainActivity", "User login was cancelled");
             }
