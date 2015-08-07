@@ -55,7 +55,7 @@ public class MapsActivity extends FragmentActivity implements DataCallback {
     public static int DEFAULT_MAP_ZOOM = 5;
 
     private String userId = "";
-    public static String SHARED_PREF_USER_ID = "uder_id";
+    public static String SHARED_PREF_USER_ID = "user_id";
 
 
 
@@ -82,16 +82,16 @@ public class MapsActivity extends FragmentActivity implements DataCallback {
 
         greetUserAtFirstTime();
 
-        final PrimaryDrawerItem newDonationItem = new PrimaryDrawerItem().withName("New donation");
-        final PrimaryDrawerItem manageItem = new PrimaryDrawerItem().withName("Manage");
+        final PrimaryDrawerItem newDonationItem = new PrimaryDrawerItem().withName(R.string.new_donation);
+        final PrimaryDrawerItem manageItem = new PrimaryDrawerItem().withName(R.string.manage);
 
         Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
         result = new DrawerBuilder()
                 .withActivity(this)
                 .withToolbar(toolbar)
                 .addDrawerItems(
-                        new PrimaryDrawerItem().withName("Map view"),
-                        new PrimaryDrawerItem().withName("List view"),
+                        new PrimaryDrawerItem().withName(R.string.map_view),
+                        new PrimaryDrawerItem().withName(R.string.list_view),
                         newDonationItem,
                         manageItem
                 )
