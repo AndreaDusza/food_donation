@@ -1,6 +1,8 @@
 package com.logcats.fooddonation;
 
 import java.io.Serializable;
+import java.math.BigInteger;
+import java.security.SecureRandom;
 import java.util.Date;
 
 /**
@@ -23,7 +25,7 @@ public class Offer implements Serializable{
 
     public Offer() {
         userId="";
-        id="";
+        id=new BigInteger(130, new SecureRandom()).toString(32);
         availabilityTime="";
         postCreationDate = new Date(System.currentTimeMillis());
         deactivationDate = new Date(System.currentTimeMillis());
@@ -43,6 +45,7 @@ public class Offer implements Serializable{
         active = true;
         postCreationDate = new Date();
         deactivationDate = new Date();
+        id=new BigInteger(130, new SecureRandom()).toString(32);
     }
 
     public boolean isActive() {
