@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.firebase.client.AuthData;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -19,7 +20,11 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.util.ArrayList;
 import java.util.List;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MapsActivity extends FragmentActivity implements DataCallback {
+
     public static String USER_MARKER_LOCATION_TITLE = "You are here";
     public static String STARTING_MARKER_LOCATION_TITLE = "Starting Location";
     public static double DEFAULT_LAT = 51.50;
@@ -124,6 +129,11 @@ public class MapsActivity extends FragmentActivity implements DataCallback {
     @Override
     public void onUsersReceived(List<User> users) {
         // do nothing
+    }
+
+    @Override
+    public void onAuthStateChanged(AuthData authData) {
+        // Do nothing
     }
 
     public class LocationSearch {

@@ -8,14 +8,15 @@
     <string name="tutorial_text">Pin a marker on the map to accept a donation, or you can offer one using the menu buttons.</string>
     <string name="firebase_url">https://intense-inferno-9938.firebaseio.com/</string>
     <string name="login_with_google">Login with Google+</string>
-    <string name="action_logout">Logout</string>
+    <string name="action_logout">Log out</string>
+    <string name="action_login">Log in</string>
     <string name="title_activity_user_login">UserLoginActivity</string>
     <string name="title_activity_maps">Map</string>
     <string name="title_activity_map_pane">MapPaneActivity</string>
     <string name="title_activity_donation_list">DonationListActivity</string>
     <string name="title_activity_detailed_donation">DetailedDonationActivity</string>
-    <string name="title_activity_create_donation">CreateDonationActivity</string>
     <string name="donate">Donate</string>
+    <string name="title_activity_create_donation">CreateDonationActivity</string>
     <string name="title_label">Offer title</string>
     <string name="description_label">Offer description</string>
     <string name="availability_time_label">When are you available?</string>

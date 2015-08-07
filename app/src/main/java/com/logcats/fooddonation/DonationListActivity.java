@@ -10,6 +10,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.firebase.client.AuthData;
+
 import java.util.List;
 
 
@@ -51,5 +53,10 @@ public class DonationListActivity extends Activity  implements AdapterView.OnIte
     @Override
     public void onUsersReceived(List<User> users) {
         // do nothing
+    }
+
+    @Override
+    public void onAuthStateChanged(AuthData authData) {
+        // Do nothing
     }
 }

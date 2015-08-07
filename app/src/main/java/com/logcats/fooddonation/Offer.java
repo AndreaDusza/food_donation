@@ -6,7 +6,6 @@ import java.util.Date;
 /**
  * Created by demouser on 8/6/15.
  */
-
 public class Offer implements Serializable{
     public static final String NO_IMG_AVAILABLE = "http://properties.halpernent.com/property/images/No_Image.png";
     private String userId;
@@ -19,7 +18,7 @@ public class Offer implements Serializable{
     private String title;
     private String description;
     private String picUrl;
-    private boolean isActive;
+    private boolean active;
 
     public Offer() {
         userId="";
@@ -32,7 +31,7 @@ public class Offer implements Serializable{
         title="";
         description="";
         picUrl=NO_IMG_AVAILABLE;
-        isActive=true;
+        active=true;
     }
 
     public Offer(String availabilityTime, String title, String description, String picUrl) {
@@ -40,17 +39,17 @@ public class Offer implements Serializable{
         this.title = title;
         this.description = description;
         this.picUrl = picUrl;
-        isActive = true;
+        active = true;
         postCreationDate = new Date();
         deactivationDate = new Date();
     }
 
     public boolean isActive() {
-        return isActive;
+        return active;
     }
 
     public void setActive(boolean active) {
-        this.isActive = active;
+        this.active = active;
     }
 
     public String getUserId() {

@@ -3,10 +3,12 @@ package com.logcats.fooddonation;
 import android.content.Context;
 import android.util.Log;
 
+import com.firebase.client.AuthData;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
+import com.google.android.gms.plus.Plus;
 
 import java.util.ArrayList;
 
@@ -45,7 +47,12 @@ public class DataManager {
     }
 
     public User getUserForOffer(Offer offer){
-        //TODO
+        String userId = offer.getUserId();
+        for (User u : users){
+            if (userId.equals(u.getId())){
+                return u;
+            }
+        }
         return null;
     }
 
@@ -56,12 +63,14 @@ public class DataManager {
         offersRootRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-                Log.d("FB", snapshot.getValue().toString());
                 allOffers =  new ArrayList<Offer>();
-                for (DataSnapshot offerSnapshot : snapshot.getChildren()) {
+                if (snapshot.getValue() != null) {
+                    Log.d("FB", snapshot.getValue().toString());
+                    for (DataSnapshot offerSnapshot : snapshot.getChildren()) {
 
-                    Offer current = offerSnapshot.getValue(Offer.class);
-                    allOffers.add(current);
+                        Offer current = offerSnapshot.getValue(Offer.class);
+                        allOffers.add(current);
+                    }
                 }
                 if (mCallback != null) {
                     mCallback.onOffersReceived(allOffers);
@@ -97,9 +106,23 @@ public class DataManager {
                 Log.d("FB", "The read failed: " + firebaseError.getMessage());
             }
         });
+
+        usersRootRef.addAuthStateListener(new Firebase.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(AuthData authData) {
+                Log.d("DatabaseManager", "Authentication state changed");
+                if (mCallback != null) {
+                    mCallback.onAuthStateChanged(authData);
+                }
+            }
+        });
     }
 
     public void setCallback(DataCallback callback) {
         mCallback = callback;
+    }
+
+    public void logout() {
+        usersRootRef.unauth();
     }
 }

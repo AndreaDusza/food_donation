@@ -278,23 +278,23 @@ public class UserLoginActivity extends ActionBarActivity implements
             /* Otherwise, it's probably the request by the Facebook login button, keep track of the session */
            // mFacebookCallbackManager.onActivityResult(requestCode, resultCode, data);
         }
-    }
+    }/*
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        /* If a user is currently authenticated, display a logout menu */
+        *//* If a user is currently authenticated, display a logout menu *//*
         if (this.mAuthData != null) {
             getMenuInflater().inflate(R.menu.menu_user_login, menu);
             return true;
         } else {
             return false;
         }
-    }
+    }*/
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_logout) {
+        if (id == R.id.settings) {
             logout();
             return true;
         }
@@ -429,6 +429,11 @@ public class UserLoginActivity extends ActionBarActivity implements
             isRegistered = true;
             dataManager.registerNewUser(user);
         }
+    }
+
+    @Override
+    public void onAuthStateChanged(AuthData authData) {
+        // Do nothing
     }
 
     /**
