@@ -47,7 +47,12 @@ public class DataManager {
     }
 
     public User getUserForOffer(Offer offer){
-        //TODO
+        String userId = offer.getUserId();
+        for (User u : users){
+            if (userId.equals(u.getId())){
+                return u;
+            }
+        }
         return null;
     }
 

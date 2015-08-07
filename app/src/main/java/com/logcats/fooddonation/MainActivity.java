@@ -1,38 +1,31 @@
 package com.logcats.fooddonation;
 
-import android.app.ActionBar;
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.Button;
-
-import com.mikepenz.materialdrawer.Drawer;
-import com.mikepenz.materialdrawer.DrawerBuilder;
-import com.mikepenz.materialdrawer.model.DividerDrawerItem;
-import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
-import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
-import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
+import android.widget.TextView;
 
 import com.firebase.client.AuthData;
-import com.firebase.client.Firebase;
+import com.mikepenz.materialdrawer.Drawer;
+import com.mikepenz.materialdrawer.DrawerBuilder;
+import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
+import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements DataCallback {
+public class MainActivity extends Activity implements DataCallback {
 
     public static final String PREFERENCES_FILE_NAME = "MyAppPreferences";
-    private static final String CLASS_NAME = "com.logcats.fooddonation.MainActivity";
     private SharedPreferences prefs;
     private DataManager dm;
 
@@ -40,10 +33,7 @@ public class MainActivity extends AppCompatActivity implements DataCallback {
     private String SHARED_PREF_USER_LOGGED_IN = "user_logged_in";
 
     private String welcome_screen_shown = "welcome_screen_shown";
-    private Menu menu;
     private Drawer result;
-    private Button button1;
-    private Button button2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +80,18 @@ public class MainActivity extends AppCompatActivity implements DataCallback {
                             }
                         }
 
+                        if (position==0){
+                            Intent i = new Intent(MainActivity.this, MapsActivity.class);
+                            startActivity(i);
+                        }
+                        if (position==1){
+                            Intent i = new Intent(MainActivity.this, DonationListActivity.class);
+                            startActivity(i);
+                        }
+                        if (position==2){
+                            Intent i = new Intent(MainActivity.this, CreateDonationActivity.class);
+                            startActivity(i);
+                        }
                         return true;
                     }
                 })
@@ -131,15 +133,26 @@ public class MainActivity extends AppCompatActivity implements DataCallback {
     }
 
     private void showWelcomeScreen() {
-        new AlertDialog.Builder(this)
-                .setTitle(getString(R.string.welcome))
-                .setMessage(getString(R.string.tutorial_text))
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        // continue with delete
-                    }
-                })
-                .show();
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.tutorial);
+       // dialog.setTitle(R.string.welcome);
+
+        // set the custom dialog components - text, image and button
+        TextView text = (TextView) dialog.findViewById(R.id.text);
+        text.setText("Tap on a marker to view the details of an offer");
+
+        Button dialogButton = (Button) dialog.findViewById(R.id.dialogButtonOK);
+        // if button is clicked, close the custom dialog
+        dialogButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+
+        });
+
+        dialog.show();
     }
 
     @Override

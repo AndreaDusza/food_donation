@@ -1,16 +1,9 @@
 apply plugin: 'com.android.application'
 
 android {
-    signingConfigs {
-        config {
-            keyAlias 'debug_key'
-            keyPassword 'logcats'
-            storeFile file('/Users/demouser/AndroidStudioProjects/food_donation/app/keystore.jks')
-            storePassword 'logcats'
-        }
-    }
     compileSdkVersion 22
     buildToolsVersion "22.0.1"
+
     defaultConfig {
         applicationId "com.logcats.fooddonation"
         minSdkVersion 21
