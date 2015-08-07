@@ -2260,7 +2260,13 @@
       <option name="project" value="LOCAL" />
       <updated>1438916147114</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Merge branch 'dev-login' of https://github.com/AndreaDusza/food_donation into dev&#10;&#10;# Conflicts:&#10;#&#9;app/app.iml&#10;">
+      <created>1438916561145</created>
+      <option name="number" value="00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1438916561145</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
