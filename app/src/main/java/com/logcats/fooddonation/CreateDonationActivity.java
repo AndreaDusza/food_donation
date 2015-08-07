@@ -8,6 +8,8 @@ import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+
 import com.firebase.client.utilities.Base64;
 import java.io.ByteArrayOutputStream;
 
@@ -83,6 +85,8 @@ public class CreateDonationActivity extends Activity implements View.OnClickList
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 85, output);
                 byte[] array = output.toByteArray();
                 encodedImage = Base64.encodeBytes(array);
+                ImageView imgView = (ImageView)findViewById(R.id.photoContainer);
+                imgView.setImageBitmap(bitmap);
             }
         }
     }
