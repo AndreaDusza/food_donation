@@ -31,13 +31,17 @@ public class DataManager {
     }
 
     public void registerNewUser(User user){
+        boolean userExists = false;
         for (User u: users){
-            if ((u.getId()).equals(user.getId())){
+            if (u.getId().equals(user.getId())){
+                userExists = true;
                 break;
             }
         }
-        usersRootRef.push().setValue(user);
-        Log.d("FB", "New offer registered");
+        if (!userExists) {
+            usersRootRef.push().setValue(user);
+            Log.d("FB", "New user registered");
+        }
     }
 
     public User getUserForOffer(Offer offer){
@@ -74,12 +78,17 @@ public class DataManager {
         usersRootRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-                Log.d("FB", snapshot.getValue().toString());
                 users =  new ArrayList<User>();
-                for (DataSnapshot userSnapshot : snapshot.getChildren()) {
+                if (snapshot.getValue() != null) {
+                    Log.d("FB", snapshot.getValue().toString());
+                    for (DataSnapshot userSnapshot : snapshot.getChildren()) {
 
-                    User current = userSnapshot.getValue(User.class);
-                    users.add(current);
+                        User current = userSnapshot.getValue(User.class);
+                        users.add(current);
+                    }
+                }
+                if (mCallback != null) {
+                    mCallback.onUsersReceived(users);
                 }
             }
 

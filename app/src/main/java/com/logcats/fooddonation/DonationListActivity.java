@@ -47,4 +47,9 @@ public class DonationListActivity extends Activity  implements AdapterView.OnIte
         mAdapter.setData(offers);
         mAdapter.notifyDataSetChanged();
     }
+
+    @Override
+    public void onUsersReceived(List<User> users) {
+        // do nothing
+    }
 }
