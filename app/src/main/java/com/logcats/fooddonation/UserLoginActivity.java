@@ -301,6 +301,7 @@ public class UserLoginActivity extends ActionBarActivity implements
      * Unauthenticate from Firebase and from providers where necessary.
      */
     private void logout() {
+        Log.d(TAG, "Log out");
         if (this.mAuthData != null) {
             /* logout of Firebase */
             mFirebaseRef.unauth();
