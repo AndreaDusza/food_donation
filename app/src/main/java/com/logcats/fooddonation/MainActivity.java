@@ -20,6 +20,11 @@ public class MainActivity extends Activity {
     private SharedPreferences prefs;
     private DataManager dm;
 
+    private boolean loggedIn = false;
+    private String SHARED_PREF_USER_LOGGED_IN = "user_logged_in";
+
+    private String welcome_screen_shown = "welcome_screen_shown";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,6 +33,8 @@ public class MainActivity extends Activity {
         prefs = this.getSharedPreferences(PREFERENCES_FILE_NAME, MODE_PRIVATE);
 
         greetUserAtFirstTime();
+
+        loggedIn = prefs.getBoolean(SHARED_PREF_USER_LOGGED_IN, false);
 
         Button button = (Button) findViewById(R.id.login);
         button.setOnClickListener(new View.OnClickListener() {
@@ -64,7 +71,6 @@ public class MainActivity extends Activity {
     }
 
     private void greetUserAtFirstTime(){
-        String welcome_screen_shown = "welcome_screen_shown";
         boolean welcomeScreenShown = prefs.getBoolean(welcome_screen_shown, false);
         if (!welcomeScreenShown) {
             showWelcomeScreen();
