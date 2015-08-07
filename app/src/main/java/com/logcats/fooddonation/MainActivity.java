@@ -26,6 +26,7 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements DataCallback {
@@ -40,18 +41,22 @@ public class MainActivity extends AppCompatActivity implements DataCallback {
 
     private String welcome_screen_shown = "welcome_screen_shown";
     private Menu menu;
+    private Drawer result;
+    private Button button1;
+    private Button button2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         dm = new DataManager(this);
+        dm.setCallback(this);
         prefs = this.getSharedPreferences(PREFERENCES_FILE_NAME, MODE_PRIVATE);
 
         greetUserAtFirstTime();
 
         Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
-        Drawer result = new DrawerBuilder()
+        result = new DrawerBuilder()
                 .withActivity(this)
                 .withToolbar(toolbar)
                 .addDrawerItems(
@@ -63,32 +68,41 @@ public class MainActivity extends AppCompatActivity implements DataCallback {
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(AdapterView<?> parent, View view, int position, long id, IDrawerItem drawerItem) {
+                        if (position == 4) {
+                            if (loggedIn) {
+                                loggedIn = false;
+                                result.removeItem(4);
+                                result.addItem(new PrimaryDrawerItem().withName(R.string.action_login));
+                                prefs.edit().putBoolean(SHARED_PREF_USER_LOGGED_IN, loggedIn);
+                                DataManager manager = new DataManager(getApplicationContext());
+                                manager.logout();
+                                result.closeDrawer();
+                            } else {
+                                result.removeItem(4);
+                                result.addItem(new PrimaryDrawerItem().withName(R.string.action_logout));
+                                loggedIn = true;
+                                prefs.edit().putBoolean(SHARED_PREF_USER_LOGGED_IN, loggedIn);
+
+                                Intent intent = new Intent(MainActivity.this, UserLoginActivity.class);
+                                startActivityForResult(intent, UserLoginActivity.ACTION_LOGIN);
+
+                                result.closeDrawer();
+                            }
+                        }
+
                         return true;
                     }
                 })
                 .build();
-        loggedIn = prefs.getBoolean(SHARED_PREF_USER_LOGGED_IN, false);
 
-        Button button = (Button) findViewById(R.id.login);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, UserLoginActivity.class);
-                startActivityForResult(intent, UserLoginActivity.ACTION_LOGIN);
-            }
-        });
+        loggedIn = prefs.getBoolean(SHARED_PREF_USER_LOGGED_IN, false);
+        result.addItem(new PrimaryDrawerItem().withName(R.string.action_login));
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        this.menu = menu;
         getMenuInflater().inflate(R.menu.menu_main, menu);
-
-        MenuItem menuItem = menu.findItem(R.id.action_logout);
-        if (!loggedIn && menuItem != null) {
-            menuItem.setVisible(false);
-        }
 
         return true;
     }
@@ -102,13 +116,6 @@ public class MainActivity extends AppCompatActivity implements DataCallback {
         //noinspection SimplifiableIfStatement
         switch (item.getItemId()) {
             case R.id.action_settings:
-                return true;
-            case R.id.action_logout:
-                loggedIn = false;
-                menu.findItem(R.id.action_logout).setVisible(false);
-                prefs.edit().putBoolean(SHARED_PREF_USER_LOGGED_IN, loggedIn);
-                DataManager manager = new DataManager(this);
-                manager.logout();
                 return true;
         }
 
@@ -144,8 +151,6 @@ public class MainActivity extends AppCompatActivity implements DataCallback {
                 Log.d("MainActivity", "Got user: " + user.getName());
                 loggedIn = true;
                 prefs.edit().putBoolean(SHARED_PREF_USER_LOGGED_IN, loggedIn);
-                MenuItem menuItem = menu.findItem(R.id.action_logout);
-                menuItem.setVisible(true);
             } else if (resultCode == RESULT_CANCELED) {
                 Log.d("MainActivity", "User login was cancelled");
             }
@@ -164,12 +169,6 @@ public class MainActivity extends AppCompatActivity implements DataCallback {
 
     @Override
     public void onAuthStateChanged(AuthData authData) {
-        if (authData != null) {
-            loggedIn = true;
-            prefs.edit().putBoolean(SHARED_PREF_USER_LOGGED_IN, loggedIn);
-            if (menu != null) {
-                menu.findItem(R.id.action_logout).setVisible(true);
-            }
-        }
+        // do nothing
     }
 }

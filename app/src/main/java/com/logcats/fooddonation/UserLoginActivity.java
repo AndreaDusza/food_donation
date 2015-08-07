@@ -294,7 +294,7 @@ public class UserLoginActivity extends ActionBarActivity implements
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_logout) {
+        if (id == R.id.settings) {
             logout();
             return true;
         }
