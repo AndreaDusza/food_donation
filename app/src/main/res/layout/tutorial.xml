@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:id="@+id/welcome"
-        android:text="Welcome to"
+        android:text="@string/welcome"
         android:textSize="32sp"
         android:textColor="#634353"
         />
@@ -27,7 +27,6 @@
         android:id="@+id/text"
         android:textSize="18sp"
         android:textColor="#634353"
-        android:text="Tap on a marker to view the details of an offer"
         />
     <ImageView
         android:layout_width="wrap_content"

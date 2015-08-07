@@ -24,6 +24,7 @@
     <string name="save_label">Save</string>
     <string name="map_view">Map view</string>
     <string name="list_view">List view</string>
-    <string name="new_donation">New donations</string>
+    <string name="new_donation">New donation</string>
     <string name="manage">Manage</string>
+    <string name="connect">Connect</string>
 </resources>
