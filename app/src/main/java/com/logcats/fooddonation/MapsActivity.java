@@ -16,12 +16,10 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class MapsActivity extends FragmentActivity implements DataCallback {
-
     public static String USER_MARKER_LOCATION_TITLE = "You are here";
     public static String STARTING_MARKER_LOCATION_TITLE = "Starting Location";
     public static double DEFAULT_LAT = 51.50;
@@ -49,8 +47,6 @@ public class MapsActivity extends FragmentActivity implements DataCallback {
         setContentView(R.layout.activity_maps);
         setUpMapIfNeeded();
         locationSearch.getCurrentPosition();
-
-
     }
 
     @Override

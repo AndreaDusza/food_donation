@@ -51,9 +51,7 @@ public class DetailedDonationActivity extends Activity {
                 mDeactivationDate.setText(dateFormat.format(offer.getDeactivationDate()));
                 mAvailabilityTime.setText(offer.getAvailabilityTime());
 
-                if(offer.isPicturePresent()) {
-                    Picasso.with(this).load(offer.getPicUrl()).into(mImageView);
-                }
+                Picasso.with(this).load(offer.getPicUrl()).into(mImageView);
             }
         }
     }

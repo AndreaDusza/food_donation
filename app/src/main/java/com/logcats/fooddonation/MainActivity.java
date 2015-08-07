@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -52,6 +53,10 @@ public class MainActivity extends Activity {
                 startActivityForResult(intent, UserLoginActivity.ACTION_LOGIN);
             }
         });
+
+        // @Stefania
+//        Intent i = new Intent(this, MapsActivity.class);
+//        startActivity(i);
     }
 
     @Override
