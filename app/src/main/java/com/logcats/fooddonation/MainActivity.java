@@ -63,6 +63,18 @@ public class MainActivity extends AppCompatActivity implements DataCallback {
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(AdapterView<?> parent, View view, int position, long id, IDrawerItem drawerItem) {
+                        if (position==0){
+                            Intent i = new Intent(MainActivity.this, MapsActivity.class);
+                            startActivity(i);
+                        }
+                        if (position==1){
+                            Intent i = new Intent(MainActivity.this, DonationListActivity.class);
+                            startActivity(i);
+                        }
+                        if (position==2){
+                            Intent i = new Intent(MainActivity.this, CreateDonationActivity.class);
+                            startActivity(i);
+                        }
                         return true;
                     }
                 })
