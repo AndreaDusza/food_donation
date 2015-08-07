@@ -26,4 +26,5 @@
     <string name="new_donation">Új adomány</string>
     <string name="manage">Karbantartás</string>
     <string name="connect">Írok!</string>
+    <string name="avail_time">"Ekkor ér rá: "</string>
 </resources>

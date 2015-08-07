@@ -26,4 +26,5 @@
     <string name="new_donation">New donation</string>
     <string name="manage">Manage</string>
     <string name="connect">Connect</string>
+    <string name="avail_time">"Availability time: "</string>
 </resources>
