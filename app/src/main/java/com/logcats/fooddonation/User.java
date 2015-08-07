@@ -1,10 +1,38 @@
 package com.logcats.fooddonation;
 
-import java.util.ArrayList;
+import java.io.Serializable;
 
-/**
- * Created by demouser on 8/6/15.
- */
-public class User {
-    public String id;
+public class User implements Serializable {
+
+    private String id;
+    private String name;
+    private String email;
+
+    public User() {
+
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 }

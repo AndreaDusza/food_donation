@@ -1,6 +1,8 @@
 package com.logcats.fooddonation;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,8 +10,10 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.firebase.client.utilities.Base64;
 import com.squareup.picasso.Picasso;
 
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -76,7 +80,14 @@ public class DonationAdapter extends BaseAdapter {
         DateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
         holder.postedOn.setText(dateFormat.format(currentOffer.getPostCreationDate()));
         holder.title.setText(currentOffer.getTitle());
-        Picasso.with(mContext).load(currentOffer.getPicUrl()).into(holder.foodImage);
+
+        try {
+            byte[] data = Base64.decode(currentOffer.getPicUrl());
+            Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
+            holder.foodImage.setImageBitmap(bitmap);
+        } catch (IOException e) {
+            Picasso.with(mContext).load(currentOffer.getPicUrl()).into(holder.foodImage);
+        }
 
         //TODO: Set the donators name
         return view;

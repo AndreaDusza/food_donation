@@ -3,10 +3,12 @@ package com.logcats.fooddonation;
 import android.content.Context;
 import android.util.Log;
 
+import com.firebase.client.AuthData;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
+import com.google.android.gms.plus.Plus;
 
 import java.util.ArrayList;
 
@@ -21,13 +23,36 @@ public class DataManager {
     private Firebase usersRootRef;
     private Firebase offersRootRef;
 
+    public ArrayList<Offer> getAllOffers() {
+        return allOffers;
+    }
+
     public void registerNewOffer(Offer o){
         offersRootRef.push().setValue(o);
         Log.d("FB", "New offer registered");
     }
 
+    public void registerNewUser(User user){
+        boolean userExists = false;
+        for (User u: users){
+            if (u.getId().equals(user.getId())){
+                userExists = true;
+                break;
+            }
+        }
+        if (!userExists) {
+            usersRootRef.push().setValue(user);
+            Log.d("FB", "New user registered");
+        }
+    }
+
     public User getUserForOffer(Offer offer){
-        //TODO
+        String userId = offer.getUserId();
+        for (User u : users){
+            if (userId.equals(u.getId())){
+                return u;
+            }
+        }
         return null;
     }
 
@@ -56,9 +81,46 @@ public class DataManager {
                 Log.d("FB", "The read failed: " + firebaseError.getMessage());
             }
         });
+
+        usersRootRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                users =  new ArrayList<User>();
+                if (snapshot.getValue() != null) {
+                    Log.d("FB", snapshot.getValue().toString());
+                    for (DataSnapshot userSnapshot : snapshot.getChildren()) {
+
+                        User current = userSnapshot.getValue(User.class);
+                        users.add(current);
+                    }
+                }
+                if (mCallback != null) {
+                    mCallback.onUsersReceived(users);
+                }
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+                Log.d("FB", "The read failed: " + firebaseError.getMessage());
+            }
+        });
+
+        usersRootRef.addAuthStateListener(new Firebase.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(AuthData authData) {
+                Log.d("DatabaseManager", "Authentication state changed");
+                if (mCallback != null) {
+                    mCallback.onAuthStateChanged(authData);
+                }
+            }
+        });
     }
 
     public void setCallback(DataCallback callback) {
         mCallback = callback;
+    }
+
+    public void logout() {
+        usersRootRef.unauth();
     }
 }
