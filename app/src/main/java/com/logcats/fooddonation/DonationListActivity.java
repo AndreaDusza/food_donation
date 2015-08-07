@@ -14,6 +14,7 @@ import java.util.List;
 
 
 public class DonationListActivity extends Activity  implements AdapterView.OnItemClickListener, DataCallback {
+
     public static final String OFFER_EXTRA_KEY = "offer";
     private ListView mListView;
     private DonationAdapter mAdapter;
@@ -45,5 +46,10 @@ public class DonationListActivity extends Activity  implements AdapterView.OnIte
     public void onOffersReceived(List<Offer> offers) {
         mAdapter.setData(offers);
         mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onUsersReceived(List<User> users) {
+        // do nothing
     }
 }

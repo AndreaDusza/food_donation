@@ -7,4 +7,5 @@ import java.util.List;
  */
 public interface DataCallback {
     void onOffersReceived(List<Offer> offers);
+    void onUsersReceived(List<User> users);
 }
