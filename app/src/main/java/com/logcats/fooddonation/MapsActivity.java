@@ -1,12 +1,23 @@
 package com.logcats.fooddonation;
 
+import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.LevelListDrawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.firebase.client.AuthData;
 import com.google.android.gms.maps.CameraUpdate;
@@ -29,13 +40,14 @@ public class MapsActivity extends FragmentActivity implements DataCallback {
     public static double DEFAULT_LNG = 0;
     public static int MAP_ZOOM = 15;
     public static int DEFAULT_MAP_ZOOM = 5;
+    public static String MARKER_BUNDLE = "offer id";
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     LatLng userLocation;
     Marker userMarker;
     LocationSearch locationSearch;
     Location lastLocation;
-    ArrayList<Marker> markers;
+    ArrayList<MarkerOffer> markerOffers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +57,7 @@ public class MapsActivity extends FragmentActivity implements DataCallback {
         dataManager.setCallback(this);
 
         locationSearch = new LocationSearch();
-        markers = new ArrayList<>();
+        markerOffers = new ArrayList<>();
 
         setContentView(R.layout.activity_maps);
         setUpMapIfNeeded();
@@ -99,7 +111,7 @@ public class MapsActivity extends FragmentActivity implements DataCallback {
         if(userLocation == null) {
             userLocation = new LatLng(DEFAULT_LAT, DEFAULT_LNG);
             userMarker = mMap.addMarker(new MarkerOptions()
-                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET))
+                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.location))
                     .position(userLocation)
                     .title(STARTING_MARKER_LOCATION_TITLE));
 
@@ -107,6 +119,50 @@ public class MapsActivity extends FragmentActivity implements DataCallback {
                     DEFAULT_MAP_ZOOM));
         }
         Log.d("Location", "Marker set: " + userLocation.toString());
+
+        // Set listener for clicking markers
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+
+                Offer offer = null;
+                for(MarkerOffer off : markerOffers) {
+                    if(off.getMarker().equals(marker)) {
+                        offer = off.getOffer();
+                        break;
+                    }
+                }
+                if(offer == null) {
+                    Log.e("Error on onMarkerClick ", " No paired offer for that marker");
+                    return false;
+                }
+
+                MarkerInfoDialogFragment markerFragment = newDialogFragmentInstance(offer.getId());
+                markerFragment.show(getFragmentManager(), "Title");
+
+                Log.d("Location - ", "Marker " + marker.getTitle() + " is clicked ");
+
+                //Toast.makeText(getApplicationContext(), marker.getTitle(), Toast.LENGTH_LONG).show();
+                return true;
+            }
+        });
+
+    }
+
+    /**
+     * Get new instance of dialog fragment
+     * @param id
+     * @return
+     */
+    public MarkerInfoDialogFragment newDialogFragmentInstance(String id) {
+
+        MarkerInfoDialogFragment fragment = new MarkerInfoDialogFragment();
+
+        Bundle bundle = new Bundle();
+        bundle.putString(MARKER_BUNDLE, id);
+        fragment.setArguments(bundle);
+
+        return fragment;
     }
 
     @Override
@@ -122,7 +178,7 @@ public class MapsActivity extends FragmentActivity implements DataCallback {
                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW))
                     .position(new LatLng(offer.getLatitude(), offer.getLongitude()))
                     .title(offer.getTitle()));
-            markers.add(marker);
+            markerOffers.add(new MarkerOffer(offer, marker));
         }
     }
 
@@ -231,6 +287,46 @@ public class MapsActivity extends FragmentActivity implements DataCallback {
                 return provider2 == null;
             }
             return provider1.equals(provider2);
+        }
+    }
+
+    @SuppressLint("ValidFragment")
+    public class MarkerInfoDialogFragment extends DialogFragment {
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            // Use the Builder class for convenient dialog construction
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+            String offerID = getArguments().getString(MARKER_BUNDLE);
+            MarkerOffer markerOffer = null;
+            for(MarkerOffer mo : markerOffers) {
+                if(mo.getOffer().getId().equals(offerID)) {
+                    markerOffer = mo;
+                    break;
+                }
+            }
+            if(markerOffer == null) {
+                Log.e("Dialog Fragment","No corresponding offer for the sent id");
+            }
+            final MarkerOffer finalMarkerOffer = markerOffer;
+            builder.setMessage(markerOffer.getOffer().getTitle())
+                    .setPositiveButton(R.string.marker_show_details, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            Intent detailedActivityIntent = new Intent(getApplicationContext(), DetailedDonationActivity.class);
+                            detailedActivityIntent.putExtra(DonationListActivity.OFFER_EXTRA_KEY, finalMarkerOffer.getOffer());
+                            startActivity(detailedActivityIntent);
+                        }
+                    })
+                    .setNegativeButton(R.string.marker_cancel, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            // User cancelled the dialog
+                            //Toast.makeText(getApplicationContext(), "It doesn't work!!!!!", Toast.LENGTH_LONG).show();
+                        }
+                    });
+            // Create the AlertDialog object and return it
+            return builder.create();
         }
     }
 }
