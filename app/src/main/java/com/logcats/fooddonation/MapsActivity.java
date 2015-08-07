@@ -125,6 +125,11 @@ public class MapsActivity extends FragmentActivity implements DataCallback {
         }
     }
 
+    @Override
+    public void onUsersReceived(List<User> users) {
+        // do nothing
+    }
+
     public class LocationSearch {
         private static final int TWO_MINUTES = 1000 * 60 * 2;
         LatLng userLocation;

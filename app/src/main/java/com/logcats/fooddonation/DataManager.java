@@ -30,6 +30,20 @@ public class DataManager {
         Log.d("FB", "New offer registered");
     }
 
+    public void registerNewUser(User user){
+        boolean userExists = false;
+        for (User u: users){
+            if (u.getId().equals(user.getId())){
+                userExists = true;
+                break;
+            }
+        }
+        if (!userExists) {
+            usersRootRef.push().setValue(user);
+            Log.d("FB", "New user registered");
+        }
+    }
+
     public User getUserForOffer(Offer offer){
         //TODO
         return null;
@@ -53,6 +67,29 @@ public class DataManager {
                     mCallback.onOffersReceived(allOffers);
                 }
 
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+                Log.d("FB", "The read failed: " + firebaseError.getMessage());
+            }
+        });
+
+        usersRootRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                users =  new ArrayList<User>();
+                if (snapshot.getValue() != null) {
+                    Log.d("FB", snapshot.getValue().toString());
+                    for (DataSnapshot userSnapshot : snapshot.getChildren()) {
+
+                        User current = userSnapshot.getValue(User.class);
+                        users.add(current);
+                    }
+                }
+                if (mCallback != null) {
+                    mCallback.onUsersReceived(users);
+                }
             }
 
             @Override
